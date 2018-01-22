@@ -12,12 +12,15 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.a4geeks.notesmanager.AddEditNotes.AddEditActivity;
+import com.a4geeks.notesmanager.DataBase.dbNotesManager;
 import com.a4geeks.notesmanager.R;
+import com.a4geeks.notesmanager.libs.Constantes;
 
 public class DetailActivity extends AppCompatActivity {
 
     TextView tvTitulo, tvDescripcion;
     String Titulo, Descripcion, Categoria;
+    int ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +35,10 @@ public class DetailActivity extends AppCompatActivity {
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
         //Getting data from extras
-        Titulo = getIntent().getExtras().get("titulo").toString();
-        Descripcion = getIntent().getExtras().get("descripcion").toString();
-        Categoria = getIntent().getExtras().get("categoria").toString();
+        ID = Integer.parseInt(getIntent().getExtras().get(Constantes.ID).toString());
+        Titulo = getIntent().getExtras().get(dbNotesManager.NOTAS_TITULO).toString();
+        Descripcion = getIntent().getExtras().get(dbNotesManager.NOTAS_DESCRIPCION).toString();
+        Categoria = getIntent().getExtras().get(dbNotesManager.NOTAS_ID_CATEGORIA).toString();
 
         //Setting ExtrasData to Views
         setTitle(Categoria);
@@ -46,7 +50,10 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailActivity.this, AddEditActivity.class);
+                intent.putExtra(Constantes.ADD_EDIT_ACTION, 1);
+                intent.putExtra(Constantes.ID, ID);
                 startActivity(intent);
+                finish();
             }
         });
     }

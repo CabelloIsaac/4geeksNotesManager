@@ -8,7 +8,7 @@ public class ItemClass {
 
     String id, titulo, descripcion, categoria;
 
-    public ItemClass(String id, String titulo, String descripcion, String categoria) {
+    public ItemClass(String id, String categoria, String titulo, String descripcion) {
 
         this.id = id;
         this.titulo = titulo;

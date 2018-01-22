@@ -1,14 +1,11 @@
 package com.a4geeks.notesmanager.Main;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.a4geeks.notesmanager.AddEditCategorias.AddEditCategoriasActivity;
 import com.a4geeks.notesmanager.AddEditNotes.AddEditActivity;
 import com.a4geeks.notesmanager.DataBase.dbNotesManager;
 import com.a4geeks.notesmanager.DetailNotes.DetailActivity;
@@ -26,31 +24,34 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
-import static com.a4geeks.notesmanager.libs.Functions.showSnackbar;
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListFragment extends Fragment {
+public class CategoriasFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     SQLiteDatabase db;
 
-    private OnFragmentInteractionListener mListener;
+    private ListFragment.OnFragmentInteractionListener mListener;
 
-    public ListFragment() {
+    ArrayList<CategoriasClass> lista = new ArrayList<CategoriasClass>();
+    CategoriasAdapter adapter;
+    ListView lvLista;
+
+    public CategoriasFragment() {
         // Required empty public constructor
     }
 
-    ArrayList<ItemClass> lista = new ArrayList<ItemClass>();
-    ItemAdapter adapter;
-    ListView lvLista;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_categorias, container, false);
+
+        ArrayList<CategoriasClass> lista = new ArrayList<CategoriasClass>();
+        CategoriasAdapter adapter;
+        ListView lvLista;
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -58,7 +59,7 @@ public class ListFragment extends Fragment {
         db = formulario.getWritableDatabase();
 
         lvLista = v.findViewById(R.id.lvLista);
-        adapter = new ItemAdapter(getActivity(), lista);
+        adapter = new CategoriasAdapter(getActivity(), lista);
 
         lvLista.setAdapter(adapter);
 
@@ -86,7 +87,7 @@ public class ListFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getContext(), AddEditActivity.class);
+                Intent i = new Intent(getContext(), AddEditCategoriasActivity.class);
                 i.putExtra(Constantes.ADD_EDIT_ACTION, 0);
                 startActivity(i);
             }
@@ -109,11 +110,9 @@ public class ListFragment extends Fragment {
 
                 while (c.moveToNext()) {
                     String ID = c.getString(0);
-                    String CATEGORIA = c.getString(1);
-                    String TITULO = c.getString(3);
-                    String DESCRIPCION = c.getString(4);
+                    String NOMBRE = c.getString(2);
 
-                    lista.add(new ItemClass(ID, CATEGORIA, TITULO, DESCRIPCION));
+                    lista.add(new CategoriasClass(ID, NOMBRE));
                 }
 
             }
@@ -122,5 +121,4 @@ public class ListFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
     }
-
 }

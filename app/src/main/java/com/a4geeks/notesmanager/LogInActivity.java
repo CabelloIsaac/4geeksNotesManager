@@ -1,18 +1,32 @@
 package com.a4geeks.notesmanager;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.a4geeks.notesmanager.DataBase.dbNotesManager;
 import com.a4geeks.notesmanager.Main.MainActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import static com.a4geeks.notesmanager.libs.Functions.showSnackbar;
 
 public class LogInActivity extends AppCompatActivity {
+
+    SQLiteDatabase db;
+    private FirebaseAuth mAuth;
 
     EditText etCorreo, etPassword;
     Button btIniciarSesion;
@@ -23,6 +37,11 @@ public class LogInActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        mAuth = FirebaseAuth.getInstance();
+
+        dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
+        db = formulario.getWritableDatabase();
 
         etCorreo = findViewById(R.id.etCorreo);
         etPassword = findViewById(R.id.etPassword);
@@ -47,10 +66,16 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        //Go to MainActivity2
-        Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-        startActivity(intent);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            GoToMain();
+        }
     }
 
     //Log In Function
@@ -59,7 +84,6 @@ public class LogInActivity extends AppCompatActivity {
         //Getting text from EditText's
         Correo = etCorreo.getText().toString();
         Password = etPassword.getText().toString();
-
 
         //Checking if Email or Password aren't empty
         if (Correo.length() < 1 || Password.length() < 1) {
@@ -75,10 +99,21 @@ public class LogInActivity extends AppCompatActivity {
 
             } else {
 
-                //Go to MainActivity2
-                Intent intent = new Intent(LogInActivity.this, MainActivity.class);
-                startActivity(intent);
-
+                mAuth.signInWithEmailAndPassword(Correo, Password)
+                        .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if (task.isSuccessful()) {
+                                    // Sign in success, update UI with the signed-in user's information
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    GoToMain();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Toast.makeText(LogInActivity.this, "Error al iniciar sesión",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         }
 
@@ -89,7 +124,14 @@ public class LogInActivity extends AppCompatActivity {
         //Go to SignUpActivity Activity
         Intent intent = new Intent(LogInActivity.this, SignUpActivity.class);
         startActivity(intent);
+        finish();
 
+    }
+
+    private void GoToMain() {
+        Intent intent = new Intent(LogInActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

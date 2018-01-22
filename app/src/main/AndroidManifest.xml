@@ -11,13 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".LogInActivity"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".SignUpActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -32,6 +26,16 @@
         <activity
             android:name=".Main.MainActivity"
             android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".AddEditCategorias.AddEditCategoriasActivity"
+            android:label="@string/title_activity_add_edit_categorias"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
