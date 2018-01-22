@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Notes Manager</string>
+
+    <!-- LogInActivity -->
+    <string name="etCorreo">Correo electrónico</string>
+    <string name="etPassword">Contraseña</string>
+    <string name="etConfirmPassword">Confirmar contraseña</string>
+    <string name="btIniciarSesion">Iniciar Sesión</string>
+    <string name="btRegistrarse">Registrarse</string>
+    <string name="etNuevaCuenta">¿No tienes cuenta? Haz clic aquí</string>
+    <string name="etYaTieneCuenta">¿Ya tienes una cuenta? Haz clic aquí</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_add_edit">AddEditActivity</string>
+
 </resources>

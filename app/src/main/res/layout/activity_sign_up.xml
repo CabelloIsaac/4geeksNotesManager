@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:background="#fff"
-    tools:context="com.a4geeks.notesmanager.LogInActivity">
+    android:layout_height="match_parent"
+    tools:context="com.a4geeks.notesmanager.SignUpActivity">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="48dp"
-            android:text="@string/btIniciarSesion"
+            android:text="@string/btRegistrarse"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -65,29 +65,49 @@
 
         </android.support.design.widget.TextInputLayout>
 
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="280dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="264dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="MissingConstraints">
+
+            <EditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/etConfirmPassword"
+                android:inputType="textPassword" />
+
+        </android.support.design.widget.TextInputLayout>
+
         <Button
-            android:id="@+id/btIniciarSesion"
+            android:id="@+id/btRegistrarse"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="260dp"
-            android:text="@string/btIniciarSesion"
+            android:layout_marginTop="340dp"
+            android:text="@string/btRegistrarse"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/tvIniciarSesion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="324dp"
+            android:layout_marginTop="400dp"
+            android:text="@string/etYaTieneCuenta"
             android:textColor="@color/colorAccent"
             android:textStyle="bold"
-            android:id="@+id/tvRegistrarse"
-            android:text="@string/etNuevaCuenta"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -96,5 +116,3 @@
     </android.support.constraint.ConstraintLayout>
 
 </ScrollView>
-
-
