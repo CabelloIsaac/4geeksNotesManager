@@ -47,7 +47,7 @@ public class LogInActivity extends AppCompatActivity {
             }
         });
 
-        //Go to MainActivity
+        //Go to MainActivity2
         Intent intent = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(intent);
 
@@ -75,7 +75,7 @@ public class LogInActivity extends AppCompatActivity {
 
             } else {
 
-                //Go to MainActivity
+                //Go to MainActivity2
                 Intent intent = new Intent(LogInActivity.this, MainActivity.class);
                 startActivity(intent);
 

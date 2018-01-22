@@ -22,14 +22,17 @@
             android:name=".SignUpActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".Main.MainActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".AddEditNotes.AddEditActivity"
             android:label="@string/title_activity_add_edit"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".DetailNotes.DetailActivity"></activity>
+        <activity
+            android:name=".DetailNotes.DetailActivity"
+            android:label="@string/title_activity_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Main.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

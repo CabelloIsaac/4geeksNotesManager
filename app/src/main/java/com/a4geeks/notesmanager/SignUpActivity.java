@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.a4geeks.notesmanager.Main.MainActivity;
 
@@ -85,7 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                 } else {
 
-                    //Go to MainActivity
+                    //Go to MainActivity2
                     Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
                     startActivity(intent);
 
