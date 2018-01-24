@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.Main;
+package com.a4geeks.notesmanager.ListsResources;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.a4geeks.notesmanager.R;
@@ -16,12 +17,12 @@ import java.util.ArrayList;
  * Created by cabel on 21/1/2018.
  */
 
-public class ItemAdapter extends BaseAdapter {
+public class CategoriasAdapter extends BaseAdapter {
 
     protected Activity activity;
-    protected ArrayList<ItemClass> items;
+    protected ArrayList<CategoriasClass> items;
 
-    public ItemAdapter(Activity activity, ArrayList<ItemClass> items) {
+    public CategoriasAdapter(Activity activity, ArrayList<CategoriasClass> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -35,7 +36,7 @@ public class ItemAdapter extends BaseAdapter {
         items.clear();
     }
 
-    public void addAll(ArrayList<ItemClass> category) {
+    public void addAll(ArrayList<CategoriasClass> category) {
         for (int i = 0; i < category.size(); i++) {
             items.add(category.get(i));
         }
@@ -58,22 +59,16 @@ public class ItemAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inf.inflate(R.layout.item_row, null);
+            v = inf.inflate(R.layout.categoria_row, null);
         }
 
-        ItemClass dir = items.get(position);
+        CategoriasClass dir = items.get(position);
 
         TextView id = v.findViewById(R.id.tvId);
         id.setText(dir.getId());
 
-        TextView titulo = v.findViewById(R.id.tvTitulo);
-        titulo.setText(dir.getTitulo());
-
-        TextView descripcion = v.findViewById(R.id.tvDescripcion);
-        descripcion.setText(dir.getDescripcion());
-
-        TextView categoria = v.findViewById(R.id.tvCategoria);
-        categoria.setText(dir.getCategoria());
+        TextView nombre = v.findViewById(R.id.tvNombre);
+        nombre.setText(dir.getNombre());
 
         return v;
     }

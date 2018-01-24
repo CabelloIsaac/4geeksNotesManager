@@ -39,7 +39,11 @@
                 <Spinner
                     android:id="@+id/cbCategoria"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"></Spinner>
+                    android:layout_height="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:spinnerMode="dialog"
+                    android:visibility="visible"></Spinner>
 
             </LinearLayout>
 

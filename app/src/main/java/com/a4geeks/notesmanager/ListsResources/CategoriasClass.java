@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.Main;
+package com.a4geeks.notesmanager.ListsResources;
 
 /**
  * Created by cabel on 21/1/2018.

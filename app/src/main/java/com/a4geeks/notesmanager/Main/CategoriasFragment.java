@@ -13,11 +13,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.a4geeks.notesmanager.AddEditCategorias.AddEditCategoriasActivity;
-import com.a4geeks.notesmanager.AddEditNotes.AddEditActivity;
 import com.a4geeks.notesmanager.DataBase.dbNotesManager;
-import com.a4geeks.notesmanager.DetailNotes.DetailActivity;
+import com.a4geeks.notesmanager.ListsResources.CategoriasAdapter;
+import com.a4geeks.notesmanager.ListsResources.CategoriasClass;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.google.firebase.auth.FirebaseAuth;
@@ -49,10 +50,6 @@ public class CategoriasFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_categorias, container, false);
 
-        ArrayList<CategoriasClass> lista = new ArrayList<CategoriasClass>();
-        CategoriasAdapter adapter;
-        ListView lvLista;
-
         mAuth = FirebaseAuth.getInstance();
 
         dbNotesManager formulario = new dbNotesManager(getContext(), dbNotesManager.DB_NAME, null, 1);
@@ -63,21 +60,15 @@ public class CategoriasFragment extends Fragment {
 
         lvLista.setAdapter(adapter);
 
-
         lvLista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String ID = ((TextView) view.findViewById(R.id.tvId)).getText().toString();
-                String Titulo = ((TextView) view.findViewById(R.id.tvTitulo)).getText().toString();
-                String Descripcion = ((TextView) view.findViewById(R.id.tvDescripcion)).getText().toString();
-                String Categoria = ((TextView) view.findViewById(R.id.tvCategoria)).getText().toString();
 
-                Intent intent = new Intent(getContext(), DetailActivity.class);
+                Intent intent = new Intent(getContext(), AddEditCategoriasActivity.class);
+                intent.putExtra(Constantes.ADD_EDIT_ACTION, 1);
                 intent.putExtra(dbNotesManager.ID, ID);
-                intent.putExtra(dbNotesManager.NOTAS_TITULO, Titulo);
-                intent.putExtra(dbNotesManager.NOTAS_DESCRIPCION, Descripcion);
-                intent.putExtra(dbNotesManager.NOTAS_ID_CATEGORIA, Categoria);
                 startActivity(intent);
 
             }
@@ -104,16 +95,13 @@ public class CategoriasFragment extends Fragment {
 
             String usuario = mAuth.getCurrentUser().getUid();
 
-            Cursor c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "'", null);
-
+            Cursor c = db.rawQuery("SELECT * FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id_usuario = '" + usuario + "'", null);
             if (c.moveToFirst()) {
-
-                while (c.moveToNext()) {
+                do {
                     String ID = c.getString(0);
                     String NOMBRE = c.getString(2);
-
                     lista.add(new CategoriasClass(ID, NOMBRE));
-                }
+                } while (c.moveToNext());
 
             }
         }

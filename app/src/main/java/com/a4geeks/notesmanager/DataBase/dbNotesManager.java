@@ -32,7 +32,8 @@ public class dbNotesManager extends SQLiteOpenHelper {
     public static String NOTAS_ID_USUARIO = "id_usuario";
     public static String NOTAS_TITULO = "titulo";
     public static String NOTAS_DESCRIPCION = "descripcion";
-    public static String NOTAS_COMPLETADO = "completada";
+    public static String NOTAS_COMPLETADA = "completada";
+    public static String NOTAS_DATE = "date";
 
     /*SENTENCIAS DE CREACIÓN DE TABLAS*/
 
@@ -55,7 +56,8 @@ public class dbNotesManager extends SQLiteOpenHelper {
             " '" + NOTAS_ID_USUARIO + "' TEXT, " +
             " '" + NOTAS_TITULO + "' TEXT, " +
             " '" + NOTAS_DESCRIPCION + "' TEXT, " +
-            " '" + NOTAS_COMPLETADO + "' TEXT" +
+            " '" + NOTAS_COMPLETADA + "' TEXT, " +
+            " '" + NOTAS_DATE + "' TEXT" +
             ");";
 
     public dbNotesManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

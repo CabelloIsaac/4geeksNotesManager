@@ -23,8 +23,10 @@
 
             <CheckBox
                 android:layout_width="wrap_content"
+                android:id="@+id/checkCompletada"
                 android:padding="5dp"
                 android:gravity="center"
+                android:checked="false"
                 android:layout_height="match_parent" />
 
             <LinearLayout
@@ -42,23 +44,22 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvDescripcion"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:text="$Descripcion" />
-
-                <TextView
                     android:id="@+id/tvCategoria"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLines="1"
                     android:text="$Categoria" />
 
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:text="$Date" />
+
             </LinearLayout>
 
         </LinearLayout>
-
 
     </android.support.v7.widget.CardView>
 

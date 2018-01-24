@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.Main;
+package com.a4geeks.notesmanager.ListsResources;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,12 +16,12 @@ import java.util.ArrayList;
  * Created by cabel on 21/1/2018.
  */
 
-public class CategoriasAdapter extends BaseAdapter {
+public class CategoriasSpinnerAdapter extends BaseAdapter {
 
     protected Activity activity;
-    protected ArrayList<CategoriasClass> items;
+    protected ArrayList<CategoriasSpinnerClass> items;
 
-    public CategoriasAdapter(Activity activity, ArrayList<CategoriasClass> items) {
+    public CategoriasSpinnerAdapter(Activity activity, ArrayList<CategoriasSpinnerClass> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -35,7 +35,7 @@ public class CategoriasAdapter extends BaseAdapter {
         items.clear();
     }
 
-    public void addAll(ArrayList<CategoriasClass> category) {
+    public void addAll(ArrayList<CategoriasSpinnerClass> category) {
         for (int i = 0; i < category.size(); i++) {
             items.add(category.get(i));
         }
@@ -58,10 +58,10 @@ public class CategoriasAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inf.inflate(R.layout.categoria_row, null);
+            v = inf.inflate(R.layout.categoria_item_spinner, null);
         }
 
-        CategoriasClass dir = items.get(position);
+        CategoriasSpinnerClass dir = items.get(position);
 
         TextView id = v.findViewById(R.id.tvId);
         id.setText(dir.getId());

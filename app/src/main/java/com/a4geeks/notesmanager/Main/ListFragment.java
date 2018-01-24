@@ -1,14 +1,11 @@
 package com.a4geeks.notesmanager.Main;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +17,13 @@ import android.widget.TextView;
 import com.a4geeks.notesmanager.AddEditNotes.AddEditActivity;
 import com.a4geeks.notesmanager.DataBase.dbNotesManager;
 import com.a4geeks.notesmanager.DetailNotes.DetailActivity;
+import com.a4geeks.notesmanager.ListsResources.ItemAdapter;
+import com.a4geeks.notesmanager.ListsResources.ItemClass;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
-
-import static com.a4geeks.notesmanager.libs.Functions.showSnackbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,21 +59,14 @@ public class ListFragment extends Fragment {
 
         lvLista.setAdapter(adapter);
 
-
         lvLista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String ID = ((TextView) view.findViewById(R.id.tvId)).getText().toString();
-                String Titulo = ((TextView) view.findViewById(R.id.tvTitulo)).getText().toString();
-                String Descripcion = ((TextView) view.findViewById(R.id.tvDescripcion)).getText().toString();
-                String Categoria = ((TextView) view.findViewById(R.id.tvCategoria)).getText().toString();
 
                 Intent intent = new Intent(getContext(), DetailActivity.class);
                 intent.putExtra(dbNotesManager.ID, ID);
-                intent.putExtra(dbNotesManager.NOTAS_TITULO, Titulo);
-                intent.putExtra(dbNotesManager.NOTAS_DESCRIPCION, Descripcion);
-                intent.putExtra(dbNotesManager.NOTAS_ID_CATEGORIA, Categoria);
                 startActivity(intent);
 
             }
@@ -107,14 +97,18 @@ public class ListFragment extends Fragment {
 
             if (c.moveToFirst()) {
 
-                while (c.moveToNext()) {
+                do {
+
                     String ID = c.getString(0);
                     String CATEGORIA = c.getString(1);
                     String TITULO = c.getString(3);
                     String DESCRIPCION = c.getString(4);
+                    String COMPLETADA = c.getString(5);
+                    String DATE = c.getString(6);
 
-                    lista.add(new ItemClass(ID, CATEGORIA, TITULO, DESCRIPCION));
-                }
+                    lista.add(new ItemClass(ID, CATEGORIA, TITULO, DESCRIPCION, COMPLETADA, DATE));
+
+                } while (c.moveToNext());
 
             }
         }

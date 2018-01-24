@@ -1,26 +1,36 @@
 package com.a4geeks.notesmanager.DetailNotes;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.a4geeks.notesmanager.AddEditNotes.AddEditActivity;
 import com.a4geeks.notesmanager.DataBase.dbNotesManager;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class DetailActivity extends AppCompatActivity {
 
-    TextView tvTitulo, tvDescripcion;
-    String Titulo, Descripcion, Categoria;
+    TextView tvTitulo, tvDescripcion, tvDate;
+    String Titulo, Descripcion, Categoria, Date;
     int ID;
+
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,20 +40,18 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
+        db = formulario.getWritableDatabase();
+
         //Initialazing components
         tvTitulo = findViewById(R.id.tvTitulo);
+        tvDate = findViewById(R.id.tvDate);
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
         //Getting data from extras
         ID = Integer.parseInt(getIntent().getExtras().get(Constantes.ID).toString());
-        Titulo = getIntent().getExtras().get(dbNotesManager.NOTAS_TITULO).toString();
-        Descripcion = getIntent().getExtras().get(dbNotesManager.NOTAS_DESCRIPCION).toString();
-        Categoria = getIntent().getExtras().get(dbNotesManager.NOTAS_ID_CATEGORIA).toString();
 
-        //Setting ExtrasData to Views
-        setTitle(Categoria);
-        tvTitulo.setText(Titulo);
-        tvDescripcion.setText(Descripcion);
+        setDateToViews(ID);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +64,41 @@ public class DetailActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+    }
+
+    private void setDateToViews(int id) {
+
+        //Getting data about ID from DATABASE
+        Cursor c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + id + "'", null);
+
+        if (c.moveToFirst()) {
+
+            do {
+
+                String CATEGORIA = c.getString(1);
+                String TITULO = c.getString(3);
+                String DESCRIPCION = c.getString(4);
+                String DATE = c.getString(6);
+
+                //Setting ExtrasData to Views
+                setTitle(CATEGORIA);
+                tvTitulo.setText(TITULO);
+                tvDescripcion.setText(DESCRIPCION);
+
+                //Converting UnixTime to Normal Date
+                long dv = Long.valueOf(DATE);
+                java.util.Date df = new java.util.Date(dv);
+                DATE = new SimpleDateFormat("dd/MM/yyyy - hh:mm a").format(df);
+
+                tvDate.setText(DATE);
+
+            } while (c.moveToNext());
+
+        }
+
+
+
     }
 
     @Override
@@ -70,10 +113,30 @@ public class DetailActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        final int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_delete) {
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setTitle("¿Deseas eliminar esta nota?");
+            adb.setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    db.execSQL("DELETE FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + ID + "'");
+                    Toast.makeText(DetailActivity.this, "Nota eliminada", Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }
+            });
+
+            adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            adb.show();
+
             return true;
         }
 

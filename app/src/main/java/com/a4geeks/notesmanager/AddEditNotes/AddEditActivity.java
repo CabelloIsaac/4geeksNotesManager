@@ -1,10 +1,10 @@
 package com.a4geeks.notesmanager.AddEditNotes;
 
 import android.database.Cursor;
+import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -12,10 +12,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.a4geeks.notesmanager.DataBase.dbNotesManager;
+import com.a4geeks.notesmanager.ListsResources.CategoriasSpinnerAdapter;
+import com.a4geeks.notesmanager.ListsResources.CategoriasSpinnerClass;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.a4geeks.notesmanager.libs.Functions;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.ArrayList;
 
 public class AddEditActivity extends AppCompatActivity {
 
@@ -29,6 +33,9 @@ public class AddEditActivity extends AppCompatActivity {
     String categoria, titulo, descripcion, usuario;
     int id;
 
+    ArrayList<CategoriasSpinnerClass> listaCategorias = new ArrayList<CategoriasSpinnerClass>();
+    CategoriasSpinnerAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +46,12 @@ public class AddEditActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         usuario = mAuth.getCurrentUser().getUid();
+
+        cbCategoria = findViewById(R.id.cbCategoria);
+        adapter = new CategoriasSpinnerAdapter(this, listaCategorias);
+
+        cbCategoria.setAdapter(adapter);
+
 
         etTitulo = findViewById(R.id.etTitulo);
         etDescripcion = findViewById(R.id.etDescripcion);
@@ -61,7 +74,6 @@ public class AddEditActivity extends AppCompatActivity {
             setTitle("Nueva nota");
         }
 
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +88,31 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
+        cargarCategorias();
+
+    }
+
+
+    private void cargarCategorias() {
+
+        //Carga la información de la nota a editar
+        Cursor c = db.rawQuery("SELECT id, nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id_usuario = '" + usuario + "'", null);
+
+        listaCategorias.add(new CategoriasSpinnerClass("-1", "Ninguna"));
+
+        if (c.moveToFirst()) {
+            do {
+
+                String ID = c.getString(0);
+                String NOMBRE = c.getString(1);
+
+                listaCategorias.add(new CategoriasSpinnerClass(ID, NOMBRE));
+
+            } while (c.moveToNext());
+        }
+
+        cbCategoria.setSelection(1);
+
     }
 
     private void CrearNota(View view) {
@@ -87,24 +124,31 @@ public class AddEditActivity extends AppCompatActivity {
         if (titulo.length() < 1) {
             Functions.showSnackbar(view, "El título no puede estar vacío.");
         } else {
+
+            //Getting UnixTime
+            long DATE = System.currentTimeMillis();
+
             db.execSQL("INSERT INTO " + dbNotesManager.NOTAS_TABLE_NAME + " ("
                     + dbNotesManager.NOTAS_ID_CATEGORIA + ", "
                     + dbNotesManager.NOTAS_ID_USUARIO + ", "
                     + dbNotesManager.NOTAS_TITULO + ", "
                     + dbNotesManager.NOTAS_DESCRIPCION + ", "
-                    + dbNotesManager.NOTAS_COMPLETADO + ") "
+                    + dbNotesManager.NOTAS_COMPLETADA + ", "
+                    + dbNotesManager.NOTAS_DATE + ") "
                     + "VALUES ("
                     + "'" + categoria + "', "
                     + "'" + usuario + "', "
                     + "'" + titulo + "', "
                     + "'" + descripcion + "', "
-                    + "'" + "0" + "')");
+                    + "'" + "0" + "', "
+                    + "'" + DATE + "')");
             finish();
         }
 
     }
 
     private void EditarNota(View view) {
+
         //UPDATE notas
         titulo = etTitulo.getText().toString();
         descripcion = etDescripcion.getText().toString();
@@ -113,12 +157,18 @@ public class AddEditActivity extends AppCompatActivity {
         if (titulo.length() < 1) {
             Functions.showSnackbar(view, "El título no puede estar vacío.");
         } else {
+
+            //Getting UnixTime
+            long DATE = System.currentTimeMillis();
+
             db.execSQL("UPDATE " + dbNotesManager.NOTAS_TABLE_NAME + " SET "
                     + dbNotesManager.NOTAS_ID_CATEGORIA + "='" + categoria + "',"
                     + dbNotesManager.NOTAS_TITULO + "='" + titulo + "',"
-                    + dbNotesManager.NOTAS_DESCRIPCION + "='" + descripcion + "'" +
+                    + dbNotesManager.NOTAS_DESCRIPCION + "='" + descripcion + "',"
+                    + dbNotesManager.NOTAS_DATE + "='" + DATE + "'" +
                     " WHERE id = '" + id + "'");
             finish();
+
         }
 
     }
