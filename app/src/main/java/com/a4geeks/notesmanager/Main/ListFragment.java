@@ -1,7 +1,9 @@
 package com.a4geeks.notesmanager.Main;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -42,6 +44,7 @@ public class ListFragment extends Fragment {
     ArrayList<ItemClass> lista = new ArrayList<ItemClass>();
     ItemAdapter adapter;
     ListView lvLista;
+    SharedPreferences sharedPreferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +52,7 @@ public class ListFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_list, container, false);
 
+        sharedPreferences = getActivity().getSharedPreferences(Constantes.MyPREFERENCES, Context.MODE_PRIVATE);
         mAuth = FirebaseAuth.getInstance();
 
         dbNotesManager formulario = new dbNotesManager(getContext(), dbNotesManager.DB_NAME, null, 1);
@@ -92,8 +96,22 @@ public class ListFragment extends Fragment {
         if (mAuth.getCurrentUser() != null) {
 
             String usuario = mAuth.getCurrentUser().getUid();
+            Cursor c = null;
+            String orderBy = sharedPreferences.getString("order_by", "date");
 
-            Cursor c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "'", null);
+            if (orderBy.equals("az")) {
+                c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "' ORDER BY titulo ASC", null);
+            } else if (orderBy.equals("za")) {
+                c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "' ORDER BY titulo DESC", null);
+            } else if (orderBy.equals("cat")) {
+                c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "' ORDER BY id_categoria ASC", null);
+            } else if (orderBy.equals("dateA")) {
+                c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "' ORDER BY date DESC", null);
+            } else if (orderBy.equals("dateB")) {
+                c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "' ORDER BY date ASC", null);
+            } else {
+                c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id_usuario = '" + usuario + "' ORDER BY date DESC", null);
+            }
 
             if (c.moveToFirst()) {
 

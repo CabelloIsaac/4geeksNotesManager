@@ -1,12 +1,16 @@
 package com.a4geeks.notesmanager.AddEditCategorias;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -27,7 +31,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     int ADD_EDIT_ACTION;
 
     String nombre, usuario;
-    String id;
+    String ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +39,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_edit_categorias);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mAuth = FirebaseAuth.getInstance();
         usuario = mAuth.getCurrentUser().getUid();
@@ -52,7 +57,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
         //Verifica si está editando
         if (ADD_EDIT_ACTION == 1) {
             setTitle("Editar categoría");
-            id = getIntent().getStringExtra(Constantes.ID);
+            ID = getIntent().getStringExtra(Constantes.ID);
             getDataFromIDExtra();
         } else {
             setTitle("Nueva categoría");
@@ -106,7 +111,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
 
             db.execSQL("UPDATE " + dbNotesManager.CATEGORIA_TABLE_NAME + " SET "
                     + dbNotesManager.CATEGORIA_NOMBRE + "='" + nombre + "'" +
-                    " WHERE id = '" + id + "'");
+                    " WHERE id = '" + ID + "'");
             finish();
 
         }
@@ -116,7 +121,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     private void getDataFromIDExtra() {
 
         //Carga la información de la nota a editar
-        Cursor c = db.rawQuery("SELECT nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + id + "'", null);
+        Cursor c = db.rawQuery("SELECT nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + ID + "'", null);
         if (c.moveToFirst()) {
             do {
 
@@ -127,6 +132,54 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
         }
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        if (ADD_EDIT_ACTION==1){
+            getMenuInflater().inflate(R.menu.menu_detail, menu);
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        final int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_delete) {
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(this);
+            adb.setTitle("¿Deseas eliminar esta categoría?");
+            adb.setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+
+                    db.execSQL("DELETE FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + ID + "'");
+                    Toast.makeText(AddEditCategoriasActivity.this, "Categoría eliminada", Toast.LENGTH_SHORT).show();
+                    finish();
+
+                }
+            });
+
+            adb.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            });
+
+            adb.show();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 
     @Override
     public boolean onSupportNavigateUp() {

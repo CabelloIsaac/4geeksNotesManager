@@ -2,8 +2,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
+        android:enabled="true"
+        android:title="Ordenar por"
+        android:titleCondensed="Areas"
+        android:visible="true">
+        <menu>
+            <item
+                android:title="Nombre">
+                <menu>
+                    <item
+                        android:id="@+id/menuOrdenarAZ"
+                        android:title="Nombre (A-Z)"></item>
+                    <item
+                        android:id="@+id/menuOrdenarZA"
+                        android:title="Nombre (Z-A)"></item>
+                </menu>
+            </item>
+            <item
+                android:id="@+id/menuOrdenarCat"
+                android:title="Categoría"></item>
+            <item
+                android:title="Fecha"><menu>
+                <item
+                    android:id="@+id/menuOrdenarDateA"
+                    android:title="Nuevas primero"></item>
+                <item
+                    android:id="@+id/menuOrdenarDateB"
+                    android:title="Antiguas priemro"></item>
+            </menu></item>
+        </menu>
+    </item>
 </menu>

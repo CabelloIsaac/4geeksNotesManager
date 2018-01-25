@@ -1,5 +1,6 @@
 package com.a4geeks.notesmanager.Main;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -20,16 +21,21 @@ import android.widget.Toast;
 import com.a4geeks.notesmanager.LogInActivity;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.SignUpActivity;
+import com.a4geeks.notesmanager.libs.Constantes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         ListFragment.OnFragmentInteractionListener,
-        CategoriasFragment.OnFragmentInteractionListener  {
+        CategoriasFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
     NavigationView navigationView;
+
+    SharedPreferences sharedPreferences;
+
+    int currentFragment = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        sharedPreferences = getSharedPreferences(Constantes.MyPREFERENCES, Context.MODE_PRIVATE);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
@@ -87,7 +95,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+
+        if (currentFragment == 0) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }
+
         return true;
     }
 
@@ -98,8 +110,49 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menuOrdenarAZ) {
+
+            editor.putString("order_by", "az");
+            editor.commit();
+            Toast.makeText(this, "A-Z", Toast.LENGTH_SHORT).show();
+            navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
+            setTitle("Notas");
+
+            return true;
+        } else if (id == R.id.menuOrdenarZA) {
+
+            editor.putString("order_by", "za");
+            editor.commit();
+            Toast.makeText(this, "za", Toast.LENGTH_SHORT).show();
+            navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
+
+            return true;
+        } else if (id == R.id.menuOrdenarCat) {
+
+            editor.putString("order_by", "cat");
+            editor.commit();
+            navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
+            Toast.makeText(this, "cat", Toast.LENGTH_SHORT).show();
+
+            return true;
+        } else if (id == R.id.menuOrdenarDateA) {
+
+            editor.putString("order_by", "dateA");
+            editor.commit();
+            navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
+            Toast.makeText(this, "date", Toast.LENGTH_SHORT).show();
+
+            return true;
+        } else if (id == R.id.menuOrdenarDateB) {
+
+            editor.putString("order_by", "dateB");
+            editor.commit();
+            navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
+            Toast.makeText(this, "date", Toast.LENGTH_SHORT).show();
+
             return true;
         }
 
@@ -117,13 +170,17 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_inicio) {
 
+            currentFragment = 0;
             fragment = new ListFragment();
             FragmentTransaction = true;
+            invalidateOptionsMenu();
 
         } else if (id == R.id.nav_categorias) {
 
+            currentFragment = 1;
             fragment = new CategoriasFragment();
             FragmentTransaction = true;
+            invalidateOptionsMenu();
 
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();

@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Notes Manager</string>
 
+    <string name="facebook_app_id">1961183230809673</string>
+    <string name="fb_login_protocol_scheme">fb1961183230809673</string>
+
     <!-- LogInActivity -->
     <string name="etCorreo">Correo electrónico</string>
     <string name="etPassword">Contraseña</string>
