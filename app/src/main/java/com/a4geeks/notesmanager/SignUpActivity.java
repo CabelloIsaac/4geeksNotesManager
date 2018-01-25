@@ -39,11 +39,14 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        //Instanciar base de datos
         dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
         db = formulario.getWritableDatabase();
 
+        //Inicializar autenticación
         mAuth = FirebaseAuth.getInstance();
 
+        //Iniciarlizar componentes
         etCorreo = findViewById(R.id.etCorreo);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
@@ -73,9 +76,10 @@ public class SignUpActivity extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+        // Comprueba si existe una sesión activa.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser!=null){
+            //Si hay sesión activa, envía a MainActivity
             GoToMain(currentUser.getUid());
         }
     }
