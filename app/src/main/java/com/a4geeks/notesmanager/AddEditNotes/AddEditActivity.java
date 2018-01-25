@@ -5,21 +5,30 @@ import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.a4geeks.notesmanager.DataBase.dbNotesManager;
 import com.a4geeks.notesmanager.ListsResources.CategoriasSpinnerAdapter;
 import com.a4geeks.notesmanager.ListsResources.CategoriasSpinnerClass;
+import com.a4geeks.notesmanager.ListsResources.ProvinciaCursorAdapter;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.a4geeks.notesmanager.libs.Functions;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class AddEditActivity extends AppCompatActivity {
 
@@ -33,9 +42,6 @@ public class AddEditActivity extends AppCompatActivity {
     String categoria, titulo, descripcion, usuario;
     int id;
 
-    ArrayList<CategoriasSpinnerClass> listaCategorias = new ArrayList<CategoriasSpinnerClass>();
-    CategoriasSpinnerAdapter adapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,12 +52,6 @@ public class AddEditActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         usuario = mAuth.getCurrentUser().getUid();
-
-        cbCategoria = findViewById(R.id.cbCategoria);
-        adapter = new CategoriasSpinnerAdapter(this, listaCategorias);
-
-        cbCategoria.setAdapter(adapter);
-
 
         etTitulo = findViewById(R.id.etTitulo);
         etDescripcion = findViewById(R.id.etDescripcion);
@@ -64,6 +64,8 @@ public class AddEditActivity extends AppCompatActivity {
         if (getIntent().getExtras() != null) {
             ADD_EDIT_ACTION = getIntent().getIntExtra(Constantes.ADD_EDIT_ACTION, 0);
         }
+
+        cargarCategorias();
 
         //Verifica si está editando
         if (ADD_EDIT_ACTION == 1) {
@@ -88,30 +90,35 @@ public class AddEditActivity extends AppCompatActivity {
             }
         });
 
-        cargarCategorias();
-
     }
 
+    private void cargarCategorias(){
+        String[] columns = new String[]{"_id", "nombre"};
 
-    private void cargarCategorias() {
+        MatrixCursor matrixCursor = new MatrixCursor(columns);
 
-        //Carga la información de la nota a editar
-        Cursor c = db.rawQuery("SELECT id, nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id_usuario = '" + usuario + "'", null);
 
-        listaCategorias.add(new CategoriasSpinnerClass("-1", "Ninguna"));
+        String NOMBRE;
+        int ID;
 
-        if (c.moveToFirst()) {
+        String selectQuery = "select id, nombre from categorias WHERE (id_usuario ='" + usuario + "') or (id_usuario='all')  ORDER BY id ASC";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+
             do {
 
-                String ID = c.getString(0);
-                String NOMBRE = c.getString(1);
+                ID = Integer.parseInt(cursor.getString(0));
+                NOMBRE = cursor.getString(1);
 
-                listaCategorias.add(new CategoriasSpinnerClass(ID, NOMBRE));
+                matrixCursor.addRow(new Object[]{ID, NOMBRE});
 
-            } while (c.moveToNext());
+            } while (cursor.moveToNext());
+
+            ProvinciaCursorAdapter adapter = new ProvinciaCursorAdapter(AddEditActivity.this, matrixCursor);
+            cbCategoria.setAdapter(adapter);
+
         }
-
-        cbCategoria.setSelection(1);
 
     }
 
@@ -119,7 +126,15 @@ public class AddEditActivity extends AppCompatActivity {
         //INSERT INTO notas
         titulo = etTitulo.getText().toString();
         descripcion = etDescripcion.getText().toString();
-        categoria = Integer.toString(cbCategoria.getSelectedItemPosition());
+
+        try {
+
+            Cursor c = (Cursor) cbCategoria.getSelectedItem();
+            categoria = c.getString(c.getColumnIndex("_id"));
+
+        } catch (Exception e) {
+            // Toast.makeText(FormOneStep2.this, "Error", Toast.LENGTH_SHORT).show();
+        }
 
         if (titulo.length() < 1) {
             Functions.showSnackbar(view, "El título no puede estar vacío.");
@@ -152,7 +167,15 @@ public class AddEditActivity extends AppCompatActivity {
         //UPDATE notas
         titulo = etTitulo.getText().toString();
         descripcion = etDescripcion.getText().toString();
-        categoria = Integer.toString(cbCategoria.getSelectedItemPosition());
+
+        try {
+
+            Cursor c = (Cursor) cbCategoria.getSelectedItem();
+            categoria = c.getString(c.getColumnIndex("_id"));
+
+        } catch (Exception e) {
+            // Toast.makeText(FormOneStep2.this, "Error", Toast.LENGTH_SHORT).show();
+        }
 
         if (titulo.length() < 1) {
             Functions.showSnackbar(view, "El título no puede estar vacío.");
@@ -187,8 +210,22 @@ public class AddEditActivity extends AppCompatActivity {
                 etTitulo.setText(titulo);
                 etDescripcion.setText(descripcion);
 
+                for (int i = 0; i < cbCategoria.getCount(); i++) {
+                    Cursor cursor = (Cursor) cbCategoria.getItemAtPosition(i);
+                    String temp = cursor.getString(cursor.getColumnIndex("_id"));
+                    if (categoria.equals(temp)) {
+
+                        cbCategoria.setSelection(i);
+
+                        break;
+
+                    }
+                }
+
             } while (c.moveToNext());
         }
+
+
 
     }
 

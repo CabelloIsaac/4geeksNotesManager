@@ -71,18 +71,21 @@ public class DetailActivity extends AppCompatActivity {
 
         //Getting data about ID from DATABASE
         Cursor c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + id + "'", null);
+        String CATEGORIA = "";
+        String TITULO = "";
+        String DESCRIPCION = "";
+        String DATE = "";
 
         if (c.moveToFirst()) {
 
             do {
 
-                String CATEGORIA = c.getString(1);
-                String TITULO = c.getString(3);
-                String DESCRIPCION = c.getString(4);
-                String DATE = c.getString(6);
+                CATEGORIA = c.getString(1);
+                TITULO = c.getString(3);
+                DESCRIPCION = c.getString(4);
+                DATE = c.getString(6);
 
                 //Setting ExtrasData to Views
-                setTitle(CATEGORIA);
                 tvTitulo.setText(TITULO);
                 tvDescripcion.setText(DESCRIPCION);
 
@@ -97,7 +100,20 @@ public class DetailActivity extends AppCompatActivity {
 
         }
 
+        Cursor cursorCategoriaName = db.rawQuery("SELECT nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + CATEGORIA + "'", null);
 
+        if (cursorCategoriaName.moveToFirst()) {
+
+            do {
+
+                String NOMBRE = cursorCategoriaName.getString(0);
+                setTitle(NOMBRE);
+
+            } while (cursorCategoriaName.moveToNext());
+
+        } else {
+            setTitle("Sin categoría");
+        }
 
     }
 

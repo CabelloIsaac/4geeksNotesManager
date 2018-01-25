@@ -112,5 +112,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_edit_categorias">AddEditCategoriasActivity</string>
+    <string name="facebook_cancel_login">Ha cancelado el inicio con Facebook</string>
+    <string name="facebook_error_login">Error al entrar con Facebook</string>
 
 </resources>

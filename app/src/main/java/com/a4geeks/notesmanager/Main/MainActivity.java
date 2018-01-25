@@ -22,6 +22,7 @@ import com.a4geeks.notesmanager.LogInActivity;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.SignUpActivity;
 import com.a4geeks.notesmanager.libs.Constantes;
+import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -184,6 +185,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_logout) {
             FirebaseAuth.getInstance().signOut();
+            LoginManager.getInstance().logOut();
             //Go to SignUpActivity Activity
             Intent intent = new Intent(MainActivity.this, LogInActivity.class);
             startActivity(intent);

@@ -3,6 +3,7 @@ package com.a4geeks.notesmanager.ListsResources;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -89,6 +90,7 @@ public class ItemAdapter extends BaseAdapter {
         titulo.setText(dir.getTitulo());
 
         TextView date = v.findViewById(R.id.tvDate);
+        TextView categoria = v.findViewById(R.id.tvCategoria);
 
         //Converting UnixTime to Normal Date
         long dv = Long.valueOf(dir.getDate());
@@ -97,8 +99,23 @@ public class ItemAdapter extends BaseAdapter {
 
         date.setText(finalDate);
 
-        TextView categoria = v.findViewById(R.id.tvCategoria);
-        categoria.setText(dir.getCategoria());
+        Cursor c = db.rawQuery("SELECT nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + dir.getCategoria()+"'", null);
+
+        if (c.moveToFirst()) {
+
+            do {
+
+                String NOMBRE = c.getString(0);
+
+                categoria.setText(NOMBRE);
+
+            } while (c.moveToNext());
+
+        } else {
+            categoria.setText("Sin categoría");
+        }
+
+
 
         if (dir.getCompletada().equals("1")) {
             checkCompletada.setChecked(false);

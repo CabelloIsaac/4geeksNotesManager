@@ -31,19 +31,15 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@drawable/ic_tags"
                     android:tint="@color/colorAccent" />
 
                 <Spinner
                     android:id="@+id/cbCategoria"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:spinnerMode="dialog"
-                    android:visibility="visible"></Spinner>
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"/>
 
             </LinearLayout>
 

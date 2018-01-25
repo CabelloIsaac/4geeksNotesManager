@@ -69,6 +69,7 @@ public class dbNotesManager extends SQLiteOpenHelper {
         db.execSQL(TABLE_USUARIOS);
         db.execSQL(TABLE_CATEGORIAS);
         db.execSQL(TABLE_NOTAS);
+        db.execSQL("INSERT INTO categorias (id_usuario, nombre) VALUES ('all','Sin categoría')");
     }
 
     @Override
