@@ -23,15 +23,15 @@
             android:name=".SignUpActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".AddEditNotes.AddEditActivity"
+            android:name=".addeditnotes.AddEditActivity"
             android:label="@string/title_activity_add_edit"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".DetailNotes.DetailActivity"
+            android:name=".detailnotes.DetailActivity"
             android:label="@string/title_activity_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".Main.MainActivity"
+            android:name=".main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -40,7 +40,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddEditCategorias.AddEditCategoriasActivity"
+            android:name=".addeditcategorias.AddEditCategoriasActivity"
             android:label="@string/title_activity_add_edit_categorias"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity android:name="com.facebook.FacebookActivity"

@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.ListsResources;
+package com.a4geeks.notesmanager.listresources;
 
 import android.content.Context;
 import android.database.Cursor;

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layout_margin="@dimen/text_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.a4geeks.notesmanager.DetailNotes.DetailActivity"
+    tools:context="com.a4geeks.notesmanager.detailnotes.DetailActivity"
     tools:showIn="@layout/activity_detail">
 
     <LinearLayout

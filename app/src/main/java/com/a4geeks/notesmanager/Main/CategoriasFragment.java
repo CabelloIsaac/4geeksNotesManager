@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.Main;
+package com.a4geeks.notesmanager.main;
 
 
 import android.content.Intent;
@@ -13,12 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.a4geeks.notesmanager.AddEditCategorias.AddEditCategoriasActivity;
-import com.a4geeks.notesmanager.DataBase.dbNotesManager;
-import com.a4geeks.notesmanager.ListsResources.CategoriasAdapter;
-import com.a4geeks.notesmanager.ListsResources.CategoriasClass;
+import com.a4geeks.notesmanager.addeditcategorias.AddEditCategoriasActivity;
+import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.listresources.CategoriasAdapter;
+import com.a4geeks.notesmanager.listresources.CategoriasClass;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.google.firebase.auth.FirebaseAuth;

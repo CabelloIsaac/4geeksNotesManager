@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.ListsResources;
+package com.a4geeks.notesmanager.listresources;
 
 import android.app.Activity;
 import android.content.Context;

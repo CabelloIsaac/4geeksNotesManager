@@ -1,34 +1,22 @@
-package com.a4geeks.notesmanager.AddEditNotes;
+package com.a4geeks.notesmanager.addeditnotes;
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import com.a4geeks.notesmanager.DataBase.dbNotesManager;
-import com.a4geeks.notesmanager.ListsResources.CategoriasSpinnerAdapter;
-import com.a4geeks.notesmanager.ListsResources.CategoriasSpinnerClass;
-import com.a4geeks.notesmanager.ListsResources.ProvinciaCursorAdapter;
+import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.listresources.ProvinciaCursorAdapter;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.a4geeks.notesmanager.libs.Functions;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class AddEditActivity extends AppCompatActivity {
 

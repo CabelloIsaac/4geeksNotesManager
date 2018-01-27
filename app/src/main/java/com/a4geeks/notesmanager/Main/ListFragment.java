@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.Main;
+package com.a4geeks.notesmanager.main;
 
 
 import android.content.Context;
@@ -15,17 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.a4geeks.notesmanager.AddEditNotes.AddEditActivity;
-import com.a4geeks.notesmanager.DataBase.dbNotesManager;
-import com.a4geeks.notesmanager.DetailNotes.DetailActivity;
-import com.a4geeks.notesmanager.ListsResources.ItemAdapter;
-import com.a4geeks.notesmanager.ListsResources.ItemClass;
+import com.a4geeks.notesmanager.addeditnotes.AddEditActivity;
+import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.detailnotes.DetailActivity;
+import com.a4geeks.notesmanager.listresources.ItemAdapter;
+import com.a4geeks.notesmanager.listresources.ItemClass;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.google.firebase.auth.FirebaseAuth;

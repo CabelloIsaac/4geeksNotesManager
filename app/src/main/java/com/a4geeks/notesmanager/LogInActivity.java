@@ -1,8 +1,6 @@
 package com.a4geeks.notesmanager;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -13,8 +11,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.a4geeks.notesmanager.DataBase.dbNotesManager;
-import com.a4geeks.notesmanager.Main.MainActivity;
+import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.main.MainActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;

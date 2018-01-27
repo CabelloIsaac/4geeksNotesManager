@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.ListsResources;
+package com.a4geeks.notesmanager.listresources;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.a4geeks.notesmanager.R;

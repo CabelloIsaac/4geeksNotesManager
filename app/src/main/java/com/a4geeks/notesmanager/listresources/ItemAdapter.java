@@ -1,6 +1,5 @@
-package com.a4geeks.notesmanager.ListsResources;
+package com.a4geeks.notesmanager.listresources;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,9 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.a4geeks.notesmanager.DataBase.dbNotesManager;
+import com.a4geeks.notesmanager.database.dbNotesManager;
 import com.a4geeks.notesmanager.R;
 
 import java.text.SimpleDateFormat;

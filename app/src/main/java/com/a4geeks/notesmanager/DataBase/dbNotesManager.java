@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.DataBase;
+package com.a4geeks.notesmanager.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -1,13 +1,10 @@
-package com.a4geeks.notesmanager.Main;
+package com.a4geeks.notesmanager.main;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,7 +17,6 @@ import android.widget.Toast;
 
 import com.a4geeks.notesmanager.LogInActivity;
 import com.a4geeks.notesmanager.R;
-import com.a4geeks.notesmanager.SignUpActivity;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.a4geeks.notesmanager.AddEditCategorias.AddEditCategoriasActivity">
+    tools:context="com.a4geeks.notesmanager.addeditcategorias.AddEditCategoriasActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
