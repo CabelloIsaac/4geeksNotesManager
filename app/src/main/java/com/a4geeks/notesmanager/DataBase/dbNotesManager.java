@@ -5,10 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by cabel on 22/1/2018.
+ * Clase de creación de Base de Datos
  */
 
-public class dbNotesManager extends SQLiteOpenHelper {
+public class DBNotesManager extends SQLiteOpenHelper {
 
     public static final String ID = "id";
 
@@ -60,7 +60,7 @@ public class dbNotesManager extends SQLiteOpenHelper {
             " '" + NOTAS_DATE + "' TEXT" +
             ");";
 
-    public dbNotesManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DBNotesManager(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

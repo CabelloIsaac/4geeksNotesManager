@@ -16,17 +16,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.a4geeks.notesmanager.addeditnotes.AddEditActivity;
-import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.database.DBNotesManager;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 
 import java.text.SimpleDateFormat;
 
+/**
+* Clase que muestra la vista de detalle de las Notas
+ **/
+
 public class DetailActivity extends AppCompatActivity {
 
     TextView tvTitulo, tvDescripcion, tvDate;
-    String Titulo, Descripcion, Categoria, Date;
-    int ID;
+    int id;
 
     SQLiteDatabase db;
 
@@ -38,8 +41,8 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
-        db = formulario.getWritableDatabase();
+        DBNotesManager dbNotesManager = new DBNotesManager(this, DBNotesManager.DB_NAME, null, 1);
+        db = dbNotesManager.getWritableDatabase();
 
         //Initialazing components
         tvTitulo = findViewById(R.id.tvTitulo);
@@ -47,17 +50,18 @@ public class DetailActivity extends AppCompatActivity {
         tvDescripcion = findViewById(R.id.tvDescripcion);
 
         //Getting data from extras
-        ID = Integer.parseInt(getIntent().getExtras().get(Constantes.ID).toString());
+        id = Integer.parseInt(getIntent().getExtras().get(Constantes.ID).toString());
 
-        setDateToViews(ID);
+        setDataToViews(id);
 
+        // Lleva al usuario al menú de Edición
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailActivity.this, AddEditActivity.class);
                 intent.putExtra(Constantes.ADD_EDIT_ACTION, 1);
-                intent.putExtra(Constantes.ID, ID);
+                intent.putExtra(Constantes.ID, id);
                 startActivity(intent);
                 finish();
             }
@@ -65,47 +69,48 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
-    private void setDateToViews(int id) {
+    private void setDataToViews(int id) {
 
-        //Getting data about ID from DATABASE
-        Cursor c = db.rawQuery("SELECT * FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + id + "'", null);
-        String CATEGORIA = "";
-        String TITULO = "";
-        String DESCRIPCION = "";
-        String DATE = "";
+        //Getting data about id from DATABASE
+        Cursor cursor = db.rawQuery("SELECT * FROM " + DBNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + id + "'", null);
 
-        if (c.moveToFirst()) {
+        String categoria = "";
+        String titulo;
+        String descripcion;
+        String date;
+
+        if (cursor.moveToFirst()) {
 
             do {
 
-                CATEGORIA = c.getString(1);
-                TITULO = c.getString(3);
-                DESCRIPCION = c.getString(4);
-                DATE = c.getString(6);
+                categoria = cursor.getString(1);
+                titulo = cursor.getString(3);
+                descripcion = cursor.getString(4);
+                date = cursor.getString(6);
 
                 //Setting ExtrasData to Views
-                tvTitulo.setText(TITULO);
-                tvDescripcion.setText(DESCRIPCION);
+                tvTitulo.setText(titulo);
+                tvDescripcion.setText(descripcion);
 
                 //Converting UnixTime to Normal Date
-                long dv = Long.valueOf(DATE);
+                long dv = Long.valueOf(date);
                 java.util.Date df = new java.util.Date(dv);
-                DATE = new SimpleDateFormat("dd/MM/yyyy - hh:mm a").format(df);
+                date = new SimpleDateFormat("dd/MM/yyyy - hh:mm a").format(df);
 
-                tvDate.setText(DATE);
+                tvDate.setText(date);
 
-            } while (c.moveToNext());
+            } while (cursor.moveToNext());
 
         }
 
-        Cursor cursorCategoriaName = db.rawQuery("SELECT nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + CATEGORIA + "'", null);
+        Cursor cursorCategoriaName = db.rawQuery("SELECT nombre FROM " + DBNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + categoria + "'", null);
 
         if (cursorCategoriaName.moveToFirst()) {
 
             do {
 
-                String NOMBRE = cursorCategoriaName.getString(0);
-                setTitle(NOMBRE);
+                String nombre = cursorCategoriaName.getString(0);
+                setTitle(nombre);
 
             } while (cursorCategoriaName.moveToNext());
 
@@ -137,7 +142,7 @@ public class DetailActivity extends AppCompatActivity {
             adb.setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
 
-                    db.execSQL("DELETE FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + ID + "'");
+                    db.execSQL("DELETE FROM " + DBNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + DetailActivity.this.id + "'");
                     Toast.makeText(DetailActivity.this, "Nota eliminada", Toast.LENGTH_SHORT).show();
                     finish();
 

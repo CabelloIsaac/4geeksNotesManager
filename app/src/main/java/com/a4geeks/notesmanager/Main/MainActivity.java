@@ -22,9 +22,14 @@ import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/** Activity principal que muestra el listado de Notas al ejecutarse.
+ * Contiene, además, el menú lateral izquierdo para mostrar la lista de Categorías.
+ * En el menú superior derecho, se le permite al usuario modificar el orden en que se muestra
+ * las notas**/
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        ListFragment.OnFragmentInteractionListener,
+        NotasFragment.OnFragmentInteractionListener,
         CategoriasFragment.OnFragmentInteractionListener {
 
     private FirebaseAuth mAuth;
@@ -65,15 +70,17 @@ public class MainActivity extends AppCompatActivity
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (mAuth.getCurrentUser() == null) {
-            GoToLogIn();
+
+        //Si no existe una sesión activa, va a Iniciar Sesión
+        if (currentUser == null) {
+            goToLogIn();
         } else {
             navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
             setTitle("Notas");
         }
     }
 
-    private void GoToLogIn() {
+    private void goToLogIn() {
         Intent intent = new Intent(MainActivity.this, LogInActivity.class);
         startActivity(intent);
         finish();
@@ -112,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.menuOrdenarAZ) {
 
+            //Ordena las notas por Nombre (A-Z)
             editor.putString("order_by", "az");
             editor.commit();
             Toast.makeText(this, "A-Z", Toast.LENGTH_SHORT).show();
@@ -121,6 +129,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.menuOrdenarZA) {
 
+            //Ordena las notas por Nombre (Z-A)
             editor.putString("order_by", "za");
             editor.commit();
             Toast.makeText(this, "za", Toast.LENGTH_SHORT).show();
@@ -129,6 +138,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.menuOrdenarCat) {
 
+            //Ordena las notas por Categoría
             editor.putString("order_by", "cat");
             editor.commit();
             navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
@@ -137,6 +147,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.menuOrdenarDateA) {
 
+            //Ordena las notas por Fecha (Más antiguos primero)
             editor.putString("order_by", "dateA");
             editor.commit();
             navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
@@ -145,6 +156,7 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.menuOrdenarDateB) {
 
+            //Ordena las notas por Fecha (Más nuevos primero)
             editor.putString("order_by", "dateB");
             editor.commit();
             navigationView.getMenu().performIdentifierAction(R.id.nav_inicio, 0);
@@ -168,7 +180,7 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.nav_inicio) {
 
             currentFragment = 0;
-            fragment = new ListFragment();
+            fragment = new NotasFragment();
             FragmentTransaction = true;
             invalidateOptionsMenu();
 

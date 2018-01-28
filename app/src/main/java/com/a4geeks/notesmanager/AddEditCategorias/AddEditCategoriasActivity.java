@@ -14,11 +14,19 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.database.DBNotesManager;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.a4geeks.notesmanager.libs.Functions;
 import com.google.firebase.auth.FirebaseAuth;
+
+/**
+ * Clase que permite Crear o Editar categorías dependiendo del parámetro recibido
+ * 0 = Crear
+ * 1 = Editar
+ *
+ * En caso de Editar, se carga en su formulario la información de la Categoría a editar
+ */
 
 public class AddEditCategoriasActivity extends AppCompatActivity {
 
@@ -26,10 +34,10 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     EditText etNombre;
-    int ADD_EDIT_ACTION;
+    int ADD_EDIT_ACTION = 0;
 
     String nombre, usuario;
-    String ID;
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +52,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
 
         etNombre = findViewById(R.id.etNombre);
 
-        dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
+        DBNotesManager formulario = new DBNotesManager(this, DBNotesManager.DB_NAME, null, 1);
         db = formulario.getWritableDatabase();
 
         //Verifica si se abrió el activity para crear (0) o editar (1)
@@ -55,7 +63,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
         //Verifica si está editando
         if (ADD_EDIT_ACTION == 1) {
             setTitle("Editar categoría");
-            ID = getIntent().getStringExtra(Constantes.ID);
+            id = getIntent().getStringExtra(Constantes.ID);
             getDataFromIDExtra();
         } else {
             setTitle("Nueva categoría");
@@ -67,17 +75,17 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (ADD_EDIT_ACTION == 0) {
                     //Creando nota
-                    CrearCategoria(view);
+                    crearCategoria(view);
                 } else {
                     //Editando nota
-                    EditarCategoria(view);
+                    editarCategoria(view);
                 }
             }
         });
 
     }
 
-    private void CrearCategoria(View view) {
+    private void crearCategoria(View view) {
         //INSERT INTO notas
         nombre = etNombre.getText().toString();
 
@@ -85,9 +93,9 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
             Functions.showSnackbar(view, "El nombre no puede estar vacío.");
         } else {
 
-            db.execSQL("INSERT INTO " + dbNotesManager.CATEGORIA_TABLE_NAME + " ("
-                    + dbNotesManager.CATEGORIA_ID_USUARIO + ", "
-                    + dbNotesManager.CATEGORIA_NOMBRE + ") "
+            db.execSQL("INSERT INTO " + DBNotesManager.CATEGORIA_TABLE_NAME + " ("
+                    + DBNotesManager.CATEGORIA_ID_USUARIO + ", "
+                    + DBNotesManager.CATEGORIA_NOMBRE + ") "
                     + "VALUES ("
                     + "'" + usuario + "', "
                     + "'" + nombre + "')");
@@ -98,7 +106,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
 
     }
 
-    private void EditarCategoria(View view) {
+    private void editarCategoria(View view) {
 
         //UPDATE notas
         nombre = etNombre.getText().toString();
@@ -107,9 +115,9 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
             Functions.showSnackbar(view, "El nombre no puede estar vacío.");
         } else {
 
-            db.execSQL("UPDATE " + dbNotesManager.CATEGORIA_TABLE_NAME + " SET "
-                    + dbNotesManager.CATEGORIA_NOMBRE + "='" + nombre + "'" +
-                    " WHERE id = '" + ID + "'");
+            db.execSQL("UPDATE " + DBNotesManager.CATEGORIA_TABLE_NAME + " SET "
+                    + DBNotesManager.CATEGORIA_NOMBRE + "='" + nombre + "'" +
+                    " WHERE id = '" + id + "'");
             finish();
 
         }
@@ -119,7 +127,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     private void getDataFromIDExtra() {
 
         //Carga la información de la nota a editar
-        Cursor c = db.rawQuery("SELECT nombre FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + ID + "'", null);
+        Cursor c = db.rawQuery("SELECT nombre FROM " + DBNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + id + "'", null);
         if (c.moveToFirst()) {
             do {
 
@@ -158,7 +166,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
             adb.setPositiveButton("Sí, eliminar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
 
-                    db.execSQL("DELETE FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + ID + "'");
+                    db.execSQL("DELETE FROM " + DBNotesManager.CATEGORIA_TABLE_NAME + " WHERE id = '" + AddEditCategoriasActivity.this.id + "'");
                     Toast.makeText(AddEditCategoriasActivity.this, "Categoría eliminada", Toast.LENGTH_SHORT).show();
                     finish();
 

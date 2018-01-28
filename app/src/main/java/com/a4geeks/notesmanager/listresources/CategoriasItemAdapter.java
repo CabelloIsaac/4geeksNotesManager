@@ -13,15 +13,15 @@ import com.a4geeks.notesmanager.R;
 import java.util.ArrayList;
 
 /**
- * Created by cabel on 21/1/2018.
+ * Adaptador para los Items de la lista de Categorías
  */
 
-public class CategoriasSpinnerAdapter extends BaseAdapter {
+public class CategoriasItemAdapter extends BaseAdapter {
 
     protected Activity activity;
-    protected ArrayList<CategoriasSpinnerClass> items;
+    protected ArrayList<CategoriasItem> items;
 
-    public CategoriasSpinnerAdapter(Activity activity, ArrayList<CategoriasSpinnerClass> items) {
+    public CategoriasItemAdapter(Activity activity, ArrayList<CategoriasItem> items) {
         this.activity = activity;
         this.items = items;
     }
@@ -35,7 +35,7 @@ public class CategoriasSpinnerAdapter extends BaseAdapter {
         items.clear();
     }
 
-    public void addAll(ArrayList<CategoriasSpinnerClass> category) {
+    public void addAll(ArrayList<CategoriasItem> category) {
         for (int i = 0; i < category.size(); i++) {
             items.add(category.get(i));
         }
@@ -58,16 +58,19 @@ public class CategoriasSpinnerAdapter extends BaseAdapter {
 
         if (convertView == null) {
             LayoutInflater inf = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            v = inf.inflate(R.layout.categoria_item_spinner, null);
+            v = inf.inflate(R.layout.categoria_row, null);
         }
 
-        CategoriasSpinnerClass dir = items.get(position);
+        //Inicializando componentes
+        TextView tvId = v.findViewById(R.id.tvId);
+        TextView tvNombre = v.findViewById(R.id.tvNombre);
 
-        TextView id = v.findViewById(R.id.tvId);
-        id.setText(dir.getId());
+        //Guardando datos el elemento CategoriasItem (dir)
+        CategoriasItem dir = items.get(position);
 
-        TextView nombre = v.findViewById(R.id.tvNombre);
-        nombre.setText(dir.getNombre());
+        //Obteniendo datos del elemento CategoriasItem (dir) y añadiéndolos a la interfaz
+        tvId.setText(dir.getId());
+        tvNombre.setText(dir.getNombre());
 
         return v;
     }

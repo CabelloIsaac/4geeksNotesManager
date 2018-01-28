@@ -15,9 +15,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.a4geeks.notesmanager.addeditcategorias.AddEditCategoriasActivity;
-import com.a4geeks.notesmanager.database.dbNotesManager;
-import com.a4geeks.notesmanager.listresources.CategoriasAdapter;
-import com.a4geeks.notesmanager.listresources.CategoriasClass;
+import com.a4geeks.notesmanager.database.DBNotesManager;
+import com.a4geeks.notesmanager.listresources.CategoriasItemAdapter;
+import com.a4geeks.notesmanager.listresources.CategoriasItem;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,17 +25,18 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 /**
- * A simple {@link Fragment} subclass.
+ * Fragment que se carga en el MainActivity que lista las categorías registradas por el usuario
  */
+
 public class CategoriasFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     SQLiteDatabase db;
 
-    private ListFragment.OnFragmentInteractionListener mListener;
+    private NotasFragment.OnFragmentInteractionListener mListener;
 
-    ArrayList<CategoriasClass> lista = new ArrayList<CategoriasClass>();
-    CategoriasAdapter adapter;
+    ArrayList<CategoriasItem> lista = new ArrayList<CategoriasItem>();
+    CategoriasItemAdapter adapter;
     ListView lvLista;
 
     public CategoriasFragment() {
@@ -51,11 +52,11 @@ public class CategoriasFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
 
-        dbNotesManager formulario = new dbNotesManager(getContext(), dbNotesManager.DB_NAME, null, 1);
-        db = formulario.getWritableDatabase();
+        DBNotesManager dbNotesManager = new DBNotesManager(getContext(), DBNotesManager.DB_NAME, null, 1);
+        db = dbNotesManager.getWritableDatabase();
 
         lvLista = v.findViewById(R.id.lvLista);
-        adapter = new CategoriasAdapter(getActivity(), lista);
+        adapter = new CategoriasItemAdapter(getActivity(), lista);
 
         lvLista.setAdapter(adapter);
 
@@ -63,12 +64,12 @@ public class CategoriasFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                String ID = ((TextView) view.findViewById(R.id.tvId)).getText().toString();
+                String itemId = ((TextView) view.findViewById(R.id.tvId)).getText().toString();
 
-                Intent intent = new Intent(getContext(), AddEditCategoriasActivity.class);
-                intent.putExtra(Constantes.ADD_EDIT_ACTION, 1);
-                intent.putExtra(dbNotesManager.ID, ID);
-                startActivity(intent);
+                Intent i = new Intent(getContext(), AddEditCategoriasActivity.class);
+                i.putExtra(Constantes.ADD_EDIT_ACTION, 1);
+                i.putExtra(DBNotesManager.ID, itemId);
+                startActivity(i);
 
             }
         });
@@ -83,23 +84,23 @@ public class CategoriasFragment extends Fragment {
             }
         });
 
-        LlenarLista();
+        llenarLista();
 
         return v;
     }
 
-    private void LlenarLista() {
+    private void llenarLista() {
 
         if (mAuth.getCurrentUser() != null) {
 
             String usuario = mAuth.getCurrentUser().getUid();
 
-            Cursor c = db.rawQuery("SELECT * FROM " + dbNotesManager.CATEGORIA_TABLE_NAME + " WHERE id_usuario = '" + usuario + "'", null);
+            Cursor c = db.rawQuery("SELECT * FROM " + DBNotesManager.CATEGORIA_TABLE_NAME + " WHERE id_usuario = '" + usuario + "'", null);
             if (c.moveToFirst()) {
                 do {
-                    String ID = c.getString(0);
-                    String NOMBRE = c.getString(2);
-                    lista.add(new CategoriasClass(ID, NOMBRE));
+                    String id = c.getString(0);
+                    String nombre = c.getString(2);
+                    lista.add(new CategoriasItem(id, nombre));
                 } while (c.moveToNext());
 
             }

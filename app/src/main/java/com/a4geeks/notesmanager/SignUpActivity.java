@@ -1,7 +1,6 @@
 package com.a4geeks.notesmanager;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -13,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.database.DBNotesManager;
 import com.a4geeks.notesmanager.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,15 +20,18 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+/** Activity para el registro de nuevos usuarios mediante el método de Correo Electrónico
+ * y haciendo uso de Firebase de Google **/
+
 public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     SQLiteDatabase db;
 
-    EditText etCorreo, etPassword, etConfirmPassword;
+    EditText etEmail, etPassword, etConfirmPassword;
     Button btRegistrarse;
     TextView tvIniciarSesion;
-    String Correo, Password, ConfirmPassword;
+    String email, password, confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +39,14 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         //Instanciar base de datos
-        dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
+        DBNotesManager formulario = new DBNotesManager(this, DBNotesManager.DB_NAME, null, 1);
         db = formulario.getWritableDatabase();
 
         //Inicializar autenticación
         mAuth = FirebaseAuth.getInstance();
 
         //Iniciarlizar componentes
-        etCorreo = findViewById(R.id.etCorreo);
+        etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etConfirmPassword = findViewById(R.id.etConfirmPassword);
         btRegistrarse = findViewById(R.id.btRegistrarse);
@@ -54,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                SignUp(view); //Calls SignIn function
+                SignUp(view); //Calls signIn function
 
             }
         });
@@ -63,7 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                SignIn(); //Calls SignUpActivity function
+                signIn(); //Calls SignUpActivity function
 
             }
         });
@@ -77,7 +79,7 @@ public class SignUpActivity extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser!=null){
             //Si hay sesión activa, envía a MainActivity
-            GoToMain(currentUser.getUid());
+            goToMain();
         }
     }
 
@@ -91,53 +93,37 @@ public class SignUpActivity extends AppCompatActivity {
     public void SignUp(View view) {
 
         //Getting text from EditText's
-        Correo = etCorreo.getText().toString();
-        Password = etPassword.getText().toString();
-        ConfirmPassword = etConfirmPassword.getText().toString();
+        email = etEmail.getText().toString();
+        password = etPassword.getText().toString();
+        confirmPassword = etConfirmPassword.getText().toString();
 
 
-        //Checking if Email or Password aren't empty
-        if (Correo.length() < 1 || Password.length() < 1 || ConfirmPassword.length() < 1) {
+        //Checking if Email or password aren't empty
+        if (email.length() < 1 || password.length() < 1 || confirmPassword.length() < 1) {
 
             showSnackbar(view, "Llene todos los campos");
 
         } else {
 
             //Checking if password is long enough
-            if (Password.length() < 8) {
+            if (password.length() < 8) {
 
                 showSnackbar(view, "La contraseña debe ser mayor a 8 caracteres");
 
             } else {
 
-                if (!Password.equals(ConfirmPassword)) {
+                if (!password.equals(confirmPassword)) {
 
                     showSnackbar(view, "Las contraseñas no coinciden");
 
                 } else {
 
-                    RegistrarUsuario(Correo, Password);
+                    RegistrarUsuario(email, password);
 
                 }
 
             }
         }
-
-    }
-
-    private Boolean ComprobarDisponibilidad(String email) {
-
-        Boolean result;
-
-        Cursor c = db.rawQuery("SELECT * FROM usuarios WHERE email = '" + email + "'", null);
-
-        if (c.moveToFirst()) {
-            result = false;
-        } else {
-            result = true;
-        }
-
-        return result;
 
     }
 
@@ -150,7 +136,7 @@ public class SignUpActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
-                            GoToMain(user.getUid());
+                            goToMain();
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -163,16 +149,16 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    public void SignIn() {
+    public void signIn() {
 
-        //Go to SignIn Activity
+        //Go to signIn Activity
         Intent intent = new Intent(SignUpActivity.this, LogInActivity.class);
         startActivity(intent);
         finish();
 
     }
 
-    private void GoToMain(String user_id) {
+    private void goToMain() {
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
         startActivity(intent);
         finish();

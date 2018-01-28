@@ -1,14 +1,14 @@
 package com.a4geeks.notesmanager.listresources;
 
 /**
- * Created by cabel on 21/1/2018.
+ * Clase para los Items de la lista de Categorías
  */
 
-public class CategoriasClass {
+public class CategoriasItem {
 
     String id, nombre;
 
-    public CategoriasClass(String id, String nombre) {
+    public CategoriasItem(String id, String nombre) {
 
         this.id = id;
         this.nombre = nombre;

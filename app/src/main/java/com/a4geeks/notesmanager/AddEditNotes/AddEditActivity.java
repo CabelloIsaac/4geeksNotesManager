@@ -11,12 +11,20 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-import com.a4geeks.notesmanager.database.dbNotesManager;
-import com.a4geeks.notesmanager.listresources.ProvinciaCursorAdapter;
+import com.a4geeks.notesmanager.database.DBNotesManager;
+import com.a4geeks.notesmanager.listresources.CategoriasSpinnerItemAdapter;
 import com.a4geeks.notesmanager.R;
 import com.a4geeks.notesmanager.libs.Constantes;
 import com.a4geeks.notesmanager.libs.Functions;
 import com.google.firebase.auth.FirebaseAuth;
+
+/**
+ * Clase que permite Crear o Editar Notas dependiendo del parámetro recibido
+ * 0 = Crear
+ * 1 = Editar
+ *
+ * En caso de Editar, se carga en su formulario la información de la Nota a editar
+ */
 
 public class AddEditActivity extends AppCompatActivity {
 
@@ -45,8 +53,8 @@ public class AddEditActivity extends AppCompatActivity {
         etDescripcion = findViewById(R.id.etDescripcion);
         cbCategoria = findViewById(R.id.cbCategoria);
 
-        dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
-        db = formulario.getWritableDatabase();
+        DBNotesManager dbNotesManager = new DBNotesManager(this, DBNotesManager.DB_NAME, null, 1);
+        db = dbNotesManager.getWritableDatabase();
 
         //Verifica si se abrió el activity para crear (0) o editar (1)
         if (getIntent().getExtras() != null) {
@@ -70,10 +78,10 @@ public class AddEditActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (ADD_EDIT_ACTION == 0) {
                     //Creando nota
-                    CrearNota(view);
+                    crearNota(view);
                 } else {
                     //Editando nota
-                    EditarNota(view);
+                    editarNota(view);
                 }
             }
         });
@@ -86,8 +94,8 @@ public class AddEditActivity extends AppCompatActivity {
         MatrixCursor matrixCursor = new MatrixCursor(columns);
 
 
-        String NOMBRE;
-        int ID;
+        String nombre;
+        int id;
 
         String selectQuery = "select id, nombre from categorias WHERE (id_usuario ='" + usuario + "') or (id_usuario='all')  ORDER BY id ASC";
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -96,21 +104,21 @@ public class AddEditActivity extends AppCompatActivity {
 
             do {
 
-                ID = Integer.parseInt(cursor.getString(0));
-                NOMBRE = cursor.getString(1);
+                id = Integer.parseInt(cursor.getString(0));
+                nombre = cursor.getString(1);
 
-                matrixCursor.addRow(new Object[]{ID, NOMBRE});
+                matrixCursor.addRow(new Object[]{id, nombre});
 
             } while (cursor.moveToNext());
 
-            ProvinciaCursorAdapter adapter = new ProvinciaCursorAdapter(AddEditActivity.this, matrixCursor);
+            CategoriasSpinnerItemAdapter adapter = new CategoriasSpinnerItemAdapter(AddEditActivity.this, matrixCursor);
             cbCategoria.setAdapter(adapter);
 
         }
 
     }
 
-    private void CrearNota(View view) {
+    private void crearNota(View view) {
         //INSERT INTO notas
         titulo = etTitulo.getText().toString();
         descripcion = etDescripcion.getText().toString();
@@ -129,28 +137,28 @@ public class AddEditActivity extends AppCompatActivity {
         } else {
 
             //Getting UnixTime
-            long DATE = System.currentTimeMillis();
+            long date = System.currentTimeMillis();
 
-            db.execSQL("INSERT INTO " + dbNotesManager.NOTAS_TABLE_NAME + " ("
-                    + dbNotesManager.NOTAS_ID_CATEGORIA + ", "
-                    + dbNotesManager.NOTAS_ID_USUARIO + ", "
-                    + dbNotesManager.NOTAS_TITULO + ", "
-                    + dbNotesManager.NOTAS_DESCRIPCION + ", "
-                    + dbNotesManager.NOTAS_COMPLETADA + ", "
-                    + dbNotesManager.NOTAS_DATE + ") "
+            db.execSQL("INSERT INTO " + DBNotesManager.NOTAS_TABLE_NAME + " ("
+                    + DBNotesManager.NOTAS_ID_CATEGORIA + ", "
+                    + DBNotesManager.NOTAS_ID_USUARIO + ", "
+                    + DBNotesManager.NOTAS_TITULO + ", "
+                    + DBNotesManager.NOTAS_DESCRIPCION + ", "
+                    + DBNotesManager.NOTAS_COMPLETADA + ", "
+                    + DBNotesManager.NOTAS_DATE + ") "
                     + "VALUES ("
                     + "'" + categoria + "', "
                     + "'" + usuario + "', "
                     + "'" + titulo + "', "
                     + "'" + descripcion + "', "
                     + "'" + "0" + "', "
-                    + "'" + DATE + "')");
+                    + "'" + date + "')");
             finish();
         }
 
     }
 
-    private void EditarNota(View view) {
+    private void editarNota(View view) {
 
         //UPDATE notas
         titulo = etTitulo.getText().toString();
@@ -158,8 +166,8 @@ public class AddEditActivity extends AppCompatActivity {
 
         try {
 
-            Cursor c = (Cursor) cbCategoria.getSelectedItem();
-            categoria = c.getString(c.getColumnIndex("_id"));
+            Cursor cursor = (Cursor) cbCategoria.getSelectedItem();
+            categoria = cursor.getString(cursor.getColumnIndex("_id"));
 
         } catch (Exception e) {
             // Toast.makeText(FormOneStep2.this, "Error", Toast.LENGTH_SHORT).show();
@@ -170,13 +178,13 @@ public class AddEditActivity extends AppCompatActivity {
         } else {
 
             //Getting UnixTime
-            long DATE = System.currentTimeMillis();
+            long date = System.currentTimeMillis();
 
-            db.execSQL("UPDATE " + dbNotesManager.NOTAS_TABLE_NAME + " SET "
-                    + dbNotesManager.NOTAS_ID_CATEGORIA + "='" + categoria + "',"
-                    + dbNotesManager.NOTAS_TITULO + "='" + titulo + "',"
-                    + dbNotesManager.NOTAS_DESCRIPCION + "='" + descripcion + "',"
-                    + dbNotesManager.NOTAS_DATE + "='" + DATE + "'" +
+            db.execSQL("UPDATE " + DBNotesManager.NOTAS_TABLE_NAME + " SET "
+                    + DBNotesManager.NOTAS_ID_CATEGORIA + "='" + categoria + "',"
+                    + DBNotesManager.NOTAS_TITULO + "='" + titulo + "',"
+                    + DBNotesManager.NOTAS_DESCRIPCION + "='" + descripcion + "',"
+                    + DBNotesManager.NOTAS_DATE + "='" + date + "'" +
                     " WHERE id = '" + id + "'");
             finish();
 
@@ -187,20 +195,20 @@ public class AddEditActivity extends AppCompatActivity {
     private void getDataFromIDExtra(int ID) {
 
         //Carga la información de la nota a editar
-        Cursor c = db.rawQuery("SELECT id_categoria, titulo, descripcion FROM " + dbNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + ID + "'", null);
+        Cursor cursor = db.rawQuery("SELECT id_categoria, titulo, descripcion FROM " + DBNotesManager.NOTAS_TABLE_NAME + " WHERE id = '" + ID + "'", null);
 
-        if (c.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
 
-                categoria = c.getString(0);
-                titulo = c.getString(1);
-                descripcion = c.getString(2);
+                categoria = cursor.getString(0);
+                titulo = cursor.getString(1);
+                descripcion = cursor.getString(2);
                 etTitulo.setText(titulo);
                 etDescripcion.setText(descripcion);
 
                 for (int i = 0; i < cbCategoria.getCount(); i++) {
-                    Cursor cursor = (Cursor) cbCategoria.getItemAtPosition(i);
-                    String temp = cursor.getString(cursor.getColumnIndex("_id"));
+                    Cursor cursorInterno = (Cursor) cbCategoria.getItemAtPosition(i);
+                    String temp = cursorInterno.getString(cursorInterno.getColumnIndex("_id"));
                     if (categoria.equals(temp)) {
 
                         cbCategoria.setSelection(i);
@@ -210,7 +218,7 @@ public class AddEditActivity extends AppCompatActivity {
                     }
                 }
 
-            } while (c.moveToNext());
+            } while (cursor.moveToNext());
         }
 
 

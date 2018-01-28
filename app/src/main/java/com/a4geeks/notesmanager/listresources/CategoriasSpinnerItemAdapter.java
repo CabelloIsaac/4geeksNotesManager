@@ -14,9 +14,9 @@ import com.a4geeks.notesmanager.R;
  * Created by cabel on 17/8/2017.
  */
 
-public class ProvinciaCursorAdapter extends CursorAdapter {
+public class CategoriasSpinnerItemAdapter extends CursorAdapter {
 
-    public ProvinciaCursorAdapter(Context context, Cursor c) {
+    public CategoriasSpinnerItemAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
 
@@ -28,17 +28,18 @@ public class ProvinciaCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
+
         // Referencias UI.
         TextView tvNombre = (TextView) view.findViewById(R.id.tvNombre);
         TextView tvId = (TextView) view.findViewById(R.id.tvId);
 
         // Get valores.
-        String ID = cursor.getString(0);
-        String PRO_NOMBRE = cursor.getString(1);
+        String id = cursor.getString(0);
+        String nombre = cursor.getString(1);
 
         // Setup
-        tvId.setText(ID);
-        tvNombre.setText(PRO_NOMBRE);
+        tvId.setText(id);
+        tvNombre.setText(nombre);
 
     }
 

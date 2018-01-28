@@ -1,14 +1,14 @@
 package com.a4geeks.notesmanager.listresources;
 
 /**
- * Created by cabel on 21/1/2018.
+ * Clase para los Items de la lista de Notas
  */
 
-public class ItemClass {
+public class NotesItem {
 
     String id, titulo, descripcion, categoria, completada, date;
 
-    public ItemClass(String id, String categoria, String titulo, String descripcion, String completada, String date) {
+    public NotesItem(String id, String categoria, String titulo, String descripcion, String completada, String date) {
 
         this.id = id;
         this.titulo = titulo;

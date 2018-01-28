@@ -4,7 +4,7 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 
 /**
- * Created by cabel on 21/1/2018.
+ * Clase contentiva de funciones presentes en el proyecto
  */
 
 public class Functions {

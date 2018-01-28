@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/4geeksNotesManager.iml" filepath="$PROJECT_DIR$/4geeksNotesManager.iml" />
-      <module fileurl="file://F:\Isaac\Documentos\Work\4geeksNotesManager\4geeksNotesManager.iml" filepath="F:\Isaac\Documentos\Work\4geeksNotesManager\4geeksNotesManager.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

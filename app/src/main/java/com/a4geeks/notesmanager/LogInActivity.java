@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.a4geeks.notesmanager.database.dbNotesManager;
+import com.a4geeks.notesmanager.database.DBNotesManager;
 import com.a4geeks.notesmanager.main.MainActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -31,15 +31,18 @@ import java.util.Arrays;
 
 import static com.a4geeks.notesmanager.libs.Functions.showSnackbar;
 
+/** Activity para el inicio de sesión usuarios mediante el método de Correo Electrónico o Facebook
+ * y haciendo uso de Firebase de Google **/
+
 public class LogInActivity extends AppCompatActivity {
 
     SQLiteDatabase db;
     private FirebaseAuth mAuth;
 
-    EditText etCorreo, etPassword;
+    EditText etEmail, etPassword;
     Button btIniciarSesion;
     TextView tvRegistrarse;
-    String Correo, Password;
+    String email, password;
 
     CallbackManager mCallbackManager;
     LoginButton loginButton;
@@ -54,10 +57,10 @@ public class LogInActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        dbNotesManager formulario = new dbNotesManager(this, dbNotesManager.DB_NAME, null, 1);
+        DBNotesManager formulario = new DBNotesManager(this, DBNotesManager.DB_NAME, null, 1);
         db = formulario.getWritableDatabase();
 
-        etCorreo = findViewById(R.id.etCorreo);
+        etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btIniciarSesion = findViewById(R.id.btIniciarSesion);
         tvRegistrarse = findViewById(R.id.tvRegistrarse);
@@ -66,7 +69,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                SignIn(view); //Calls SignIn function
+                signIn(view); //Calls signIn function
 
             }
         });
@@ -75,7 +78,7 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                SignUp(); //Calls SignUpActivity function
+                signUp(); //Calls SignUpActivity function
 
             }
         });
@@ -91,18 +94,14 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
-
-
             }
 
             @Override
             public void onCancel() {
-                // App code
             }
 
             @Override
             public void onError(FacebookException exception) {
-                // App code
             }
         });
 
@@ -128,27 +127,27 @@ public class LogInActivity extends AppCompatActivity {
     }
 
     //Log In Function
-    public void SignIn(View view) {
+    public void signIn(View view) {
 
         //Getting text from EditText's
-        Correo = etCorreo.getText().toString();
-        Password = etPassword.getText().toString();
+        email = etEmail.getText().toString();
+        password = etPassword.getText().toString();
 
-        //Checking if Email or Password aren't empty
-        if (Correo.length() < 1 || Password.length() < 1) {
+        //Checking if Email or password aren't empty
+        if (email.length() < 1 || password.length() < 1) {
 
             showSnackbar(view, "Llene ambos campos");
 
         } else {
 
             //Checking if password is long enough
-            if (Password.length() < 8) {
+            if (password.length() < 8) {
 
                 showSnackbar(view, "La contraseña debe ser mayor a 8 caracteres");
 
             } else {
 
-                mAuth.signInWithEmailAndPassword(Correo, Password)
+                mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -184,15 +183,13 @@ public class LogInActivity extends AppCompatActivity {
                             Toast.makeText(LogInActivity.this, "Error al entkkrar con Facebook",
                                     Toast.LENGTH_SHORT).show();
                         }
-
-                        // ...
                     }
                 });
     }
 
-    public void SignUp() {
+    public void signUp() {
 
-        //Go to SignUpActivity Activity
+        //Go to SignUpActivity
         Intent intent = new Intent(LogInActivity.this, SignUpActivity.class);
         startActivity(intent);
         finish();
