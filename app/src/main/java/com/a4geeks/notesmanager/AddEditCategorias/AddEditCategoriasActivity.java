@@ -21,11 +21,17 @@ import com.a4geeks.notesmanager.libs.Functions;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
- * Clase que permite Crear o Editar categorías dependiendo del parámetro recibido
+ * Esta clase se encarga de la creación o modificación de las categorías, según el parámetro recibido
+ * por EXTRAS. Si se recibe un "0", se creará una nota y se mostrará un formulario en blanco que
+ * consta del nombre que se le dará a la categoría.
+ * Cuando se termine el formulario, se pulsa sobre el botón flotante para guardar.
+ *
+ * Si se recibe un "1", se llena el formulario con la información de la categoría a editar, tomando como
+ * referencia el ID recibido.
+ *
  * 0 = Crear
  * 1 = Editar
  *
- * En caso de Editar, se carga en su formulario la información de la Categoría a editar
  */
 
 public class AddEditCategoriasActivity extends AppCompatActivity {
@@ -85,6 +91,11 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Comprueba que el nombre no esté vacío y procede a crear una nueva categoría y guardarla en la base
+     * de datos. Luego cierra la activity actual, volviendo así a la principal.
+     * @param view este View es usado para mostrar el Snackbar dentro del método
+     */
     private void crearCategoria(View view) {
         //INSERT INTO notas
         nombre = etNombre.getText().toString();
@@ -106,6 +117,11 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Comprueba que el nombre no esté vacío y procede a modificar la categoría y guardarla en la base
+     * de datos. Luego cierra la activity actual, volviendo así a la principal.
+     * @param view este View es usado para mostrar el Snackbar dentro del método
+     */
     private void editarCategoria(View view) {
 
         //UPDATE notas
@@ -124,6 +140,10 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Obtiene el nombre de la categoría a modificar. Luego muestra esa información
+     * en el formulario para modificarse.
+     */
     private void getDataFromIDExtra() {
 
         //Carga la información de la nota a editar
@@ -140,6 +160,11 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Carga en la parte superior derecha un menú.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -151,6 +176,11 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Controla si se pulsa algún botón en el menú superior derecho.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

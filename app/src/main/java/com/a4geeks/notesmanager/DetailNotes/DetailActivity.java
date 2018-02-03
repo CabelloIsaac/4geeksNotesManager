@@ -23,8 +23,13 @@ import com.a4geeks.notesmanager.libs.Constantes;
 import java.text.SimpleDateFormat;
 
 /**
-* Clase que muestra la vista de detalle de las Notas
- **/
+ * Esta clase muestra los detalles de una nota a la que se le haya pulsado en la lista de la
+ * pantalla principal. Se mostrará la categoría en la parte superior de la ventana, el título en un
+ * texto grande y la descripción en un texto normal.
+ *
+ * En la parte superior derecha se encuentra un menú con el que se puede eliminar la nota y un botón flotante
+ * para editarla
+ */
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -69,6 +74,12 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Toma el ID de la nota que se quiere mostrar y hace una búsqueda de su información en la base de datos
+     * para mostrarla en pantalla a través de los TextView's.
+     *
+     * @param id el ID de la nota a buscar
+     */
     private void setDataToViews(int id) {
 
         //Getting data about id from DATABASE
@@ -120,6 +131,11 @@ public class DetailActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Carga en la parte superior derecha un menú.
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -127,6 +143,11 @@ public class DetailActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Este método se llama al pulsar algún menú superior derecho.
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will

@@ -48,7 +48,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
-        <activity android:name=".CrearNotaTest.CrearNotaTest"></activity>
+        <activity android:name=".crearnotatest.CrearNotaTest"></activity>
     </application>
 
 </manifest>

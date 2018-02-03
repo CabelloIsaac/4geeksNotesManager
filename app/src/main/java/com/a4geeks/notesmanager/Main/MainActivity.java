@@ -65,6 +65,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Se llama a este método a penas se inicia la clase. Comprueba si existe una sesión iniciada.
+     * Si no existe, va a la pantalla de iniciar sesión.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -80,12 +84,18 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Va a la pantalla de inicio de sesión
+     */
     private void goToLogIn() {
         Intent intent = new Intent(MainActivity.this, LogInActivity.class);
         startActivity(intent);
         finish();
     }
 
+    /**
+     * Se ejecuta si se pulsa el botón Back del dispositivo
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

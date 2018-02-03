@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.a4geeks.notesmanager.CrearNotaTest.CrearNotaTest">
+    tools:context="com.a4geeks.notesmanager.crearnotatest.CrearNotaTest">
 
     <EditText
         android:id="@+id/etTitulo"

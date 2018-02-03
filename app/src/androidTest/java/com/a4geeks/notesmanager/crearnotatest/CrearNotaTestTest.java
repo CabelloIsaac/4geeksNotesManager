@@ -1,6 +1,5 @@
-package com.a4geeks.notesmanager.CrearNotaTest;
+package com.a4geeks.notesmanager.crearnotatest;
 
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 
@@ -15,7 +14,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.junit.Assert.*;
 
 /**
  * Created by cabel on 2/2/2018.

@@ -19,11 +19,17 @@ import com.a4geeks.notesmanager.libs.Functions;
 import com.google.firebase.auth.FirebaseAuth;
 
 /**
- * Clase que permite Crear o Editar Notas dependiendo del parámetro recibido
+ * Esta clase se encarga de la creación o modificación de las notas, según el parámetro recibido
+ * por EXTRAS. Si se recibe un "0", se creará una nota y se mostrará un formulario en blanco que
+ * consta de Título, Descripción y una lista desplegable con las categorías creadas por el usuario.
+ * Cuando se termine el formulario, se pulsa sobre el botón flotante para guardar.
+ *
+ * Si se recibe un "1", se llena el formulario con la información de la nota a editar, tomando como
+ * referencia el ID recibido.
+ *
  * 0 = Crear
  * 1 = Editar
  *
- * En caso de Editar, se carga en su formulario la información de la Nota a editar
  */
 
 public class AddEditActivity extends AppCompatActivity {
@@ -88,7 +94,10 @@ public class AddEditActivity extends AppCompatActivity {
 
     }
 
-    private void cargarCategorias(){
+    /**
+     * Carga en la lista desplegable todas las categorías creadas por el usuario actual.
+     */
+    protected void cargarCategorias(){
         String[] columns = new String[]{"_id", "nombre"};
 
         MatrixCursor matrixCursor = new MatrixCursor(columns);
@@ -118,6 +127,11 @@ public class AddEditActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Comprueba que el título no esté vacío y procede a crear una nueva nota y guardarla en la base
+     * de datos. Luego cierra la activity actual, volviendo así a la principal.
+     * @param view este View es usado para mostrar el Snackbar dentro del método
+     */
     private void crearNota(View view) {
         //INSERT INTO notas
         titulo = etTitulo.getText().toString();
@@ -158,6 +172,11 @@ public class AddEditActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Comprueba que el título no esté vacío y procede a modificar la nota y guardarla en la base
+     * de datos. Luego cierra la activity actual, volviendo así a la principal.
+     * @param view este View es usado para mostrar el Snackbar dentro del método
+     */
     private void editarNota(View view) {
 
         //UPDATE notas
@@ -192,6 +211,11 @@ public class AddEditActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Obtiene el título, descripción y categoría de la nota a modificar. Luego muestra esa información
+     * en el formulario para modificarse.
+     * @param ID id de la nota a modificar
+     */
     private void getDataFromIDExtra(int ID) {
 
         //Carga la información de la nota a editar

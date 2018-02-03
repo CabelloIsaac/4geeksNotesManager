@@ -5,7 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Clase de creación de Base de Datos
+ * En esta clase se especifican todas las constantes que se usarán en la base de datos
+ * En las clases donde se haga uso de la base de datos del sistema, se hará uso de estas constantes
+ * para mantener la consistencia en las palabras clave y evitar errores de consulta.
  */
 
 public class DBNotesManager extends SQLiteOpenHelper {
@@ -64,6 +66,11 @@ public class DBNotesManager extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
+    /**
+     * Se ejecuta al ser instanciada por primera vez en la aplicación y luego no se ejecuta más.
+     * Aquí se crean las tablas y entradas que deben de estar presentes al inicio de la aplicación.
+     * @param db
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(TABLE_USUARIOS);

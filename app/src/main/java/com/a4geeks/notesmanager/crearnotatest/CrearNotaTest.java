@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.CrearNotaTest;
+package com.a4geeks.notesmanager.crearnotatest;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

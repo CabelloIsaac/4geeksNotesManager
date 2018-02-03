@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 /**
- * Fragment que se carga en el MainActivity que lista las categorías registradas por el usuario
+ * Esta clase mostrará una lista de todas las categorías creadas por el usuario actual de la aplicación.
  */
 
 public class CategoriasFragment extends Fragment {
@@ -89,6 +89,10 @@ public class CategoriasFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Obtiene todas las categorías creadas por el usuario actual de la aplicación y las muestra en
+     * una lista en pantalla. El usuario podrá hacer clic sobre ellas para modificarlas o eliminarlas.
+     */
     private void llenarLista() {
 
         if (mAuth.getCurrentUser() != null) {
