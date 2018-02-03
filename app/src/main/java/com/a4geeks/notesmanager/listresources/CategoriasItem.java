@@ -10,7 +10,7 @@ package com.a4geeks.notesmanager.listresources;
 
 public class CategoriasItem {
 
-    String id, nombre;
+    private String id, nombre;
 
     public CategoriasItem(String id, String nombre) {
 

@@ -33,11 +33,16 @@ import java.text.SimpleDateFormat;
 
 public class DetailActivity extends AppCompatActivity {
 
-    TextView tvTitulo, tvDescripcion, tvDate;
-    int id;
+    private TextView tvTitulo, tvDescripcion, tvDate;
+    private int id;
 
     SQLiteDatabase db;
 
+    /**
+     * Método que se llama al ejecutar la clase.
+     * Aquí se deben inicializar los componentes de interfaz, bases de datos y objetos globales.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +188,10 @@ public class DetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Se llama al pulsar el botón Back en la esquina superior izquierda
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

@@ -39,7 +39,7 @@ import java.util.ArrayList;
 public class NotasFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 
     private OnFragmentInteractionListener mListener;
 
@@ -47,11 +47,11 @@ public class NotasFragment extends Fragment {
         // Required empty public constructor
     }
 
-    ArrayList<NotesItem> lista = new ArrayList<NotesItem>();
-    NotesItemAdapter adapter;
-    ListView lvLista;
-    SharedPreferences sharedPreferences;
-    EditText etBuscar;
+    private ArrayList<NotesItem> lista = new ArrayList<NotesItem>();
+    private NotesItemAdapter adapter;
+    private ListView lvLista;
+    private SharedPreferences sharedPreferences;
+    private EditText etBuscar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

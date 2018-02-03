@@ -41,16 +41,16 @@ import static com.a4geeks.notesmanager.libs.Functions.showSnackbar;
 
 public class LogInActivity extends AppCompatActivity {
 
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
     private FirebaseAuth mAuth;
 
-    EditText etEmail, etPassword;
-    Button btIniciarSesion;
-    TextView tvRegistrarse;
-    String email, password;
+    private EditText etEmail, etPassword;
+    private Button btIniciarSesion;
+    private TextView tvRegistrarse;
+    private String email, password;
 
-    CallbackManager mCallbackManager;
-    LoginButton loginButton;
+    private CallbackManager mCallbackManager;
+    private LoginButton loginButton;
 
     private static final String EMAIL = "email";
 

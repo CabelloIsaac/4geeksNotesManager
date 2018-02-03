@@ -32,12 +32,12 @@ import com.google.firebase.auth.FirebaseUser;
 public class SignUpActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    SQLiteDatabase db;
+    private SQLiteDatabase db;
 
-    EditText etEmail, etPassword, etConfirmPassword;
-    Button btRegistrarse;
-    TextView tvIniciarSesion;
-    String email, password, confirmPassword;
+    private EditText etEmail, etPassword, etConfirmPassword;
+    private Button btRegistrarse;
+    private TextView tvIniciarSesion;
+    private String email, password, confirmPassword;
 
     /**
      * Método que se llama al ejecutar la clase.

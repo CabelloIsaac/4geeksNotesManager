@@ -9,7 +9,12 @@ package com.a4geeks.notesmanager.listresources;
 
 public class NotesItem {
 
-    String id, titulo, descripcion, categoria, completada, date;
+     String id;
+     String titulo;
+     String descripcion;
+     String categoria;
+     String completada;
+     String date;
 
     /**
      * Constructor de la clase NotesItem
