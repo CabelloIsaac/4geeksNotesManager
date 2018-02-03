@@ -39,6 +39,11 @@ public class SignUpActivity extends AppCompatActivity {
     TextView tvIniciarSesion;
     String email, password, confirmPassword;
 
+    /**
+     * Método que se llama al ejecutar la clase.
+     * Aquí se deben inicializar los componentes de interfaz, bases de datos y objetos globales.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

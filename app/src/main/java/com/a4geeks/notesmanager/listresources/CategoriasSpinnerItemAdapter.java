@@ -21,6 +21,9 @@ import com.a4geeks.notesmanager.R;
 
 public class CategoriasSpinnerItemAdapter extends CursorAdapter {
 
+    /**
+     * Constructor de la clase CategoriasSpinnerItemAdapter
+     */
     public CategoriasSpinnerItemAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }

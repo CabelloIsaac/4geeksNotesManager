@@ -54,6 +54,11 @@ public class LogInActivity extends AppCompatActivity {
 
     private static final String EMAIL = "email";
 
+    /**
+     * Método que se llama al ejecutar la clase.
+     * Aquí se deben inicializar los componentes de interfaz, bases de datos y objetos globales.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -40,11 +40,16 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
 
     EditText etNombre;
-    int ADD_EDIT_ACTION = 0;
+    int addEditAction = 0;
 
     String nombre, usuario;
     String id;
 
+    /**
+     * Método que se llama al ejecutar la clase.
+     * Aquí se deben inicializar los componentes de interfaz, bases de datos y objetos globales.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,11 +68,11 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
 
         //Verifica si se abrió el activity para crear (0) o editar (1)
         if (getIntent().getExtras() != null) {
-            ADD_EDIT_ACTION = getIntent().getIntExtra(Constantes.ADD_EDIT_ACTION, 0);
+            addEditAction = getIntent().getIntExtra(Constantes.ADD_EDIT_ACTION, 0);
         }
 
         //Verifica si está editando
-        if (ADD_EDIT_ACTION == 1) {
+        if (addEditAction == 1) {
             setTitle("Editar categoría");
             id = getIntent().getStringExtra(Constantes.ID);
             getDataFromIDExtra();
@@ -79,7 +84,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ADD_EDIT_ACTION == 0) {
+                if (addEditAction == 0) {
                     //Creando nota
                     crearCategoria(view);
                 } else {
@@ -169,7 +174,7 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        if (ADD_EDIT_ACTION==1){
+        if (addEditAction ==1){
             getMenuInflater().inflate(R.menu.menu_detail, menu);
         }
 
@@ -217,6 +222,10 @@ public class AddEditCategoriasActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Se llama al pulsar el botón Back en la esquina superior izquierda
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

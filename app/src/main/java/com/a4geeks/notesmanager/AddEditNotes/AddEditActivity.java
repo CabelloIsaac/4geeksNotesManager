@@ -39,11 +39,16 @@ public class AddEditActivity extends AppCompatActivity {
 
     EditText etTitulo, etDescripcion;
     Spinner cbCategoria;
-    int ADD_EDIT_ACTION;
+    int addEditAction;
 
     String categoria, titulo, descripcion, usuario;
     int id;
 
+    /**
+     * Método que se llama al ejecutar la clase.
+     * Aquí se deben inicializar los componentes de interfaz, bases de datos y objetos globales.
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +69,13 @@ public class AddEditActivity extends AppCompatActivity {
 
         //Verifica si se abrió el activity para crear (0) o editar (1)
         if (getIntent().getExtras() != null) {
-            ADD_EDIT_ACTION = getIntent().getIntExtra(Constantes.ADD_EDIT_ACTION, 0);
+            addEditAction = getIntent().getIntExtra(Constantes.ADD_EDIT_ACTION, 0);
         }
 
         cargarCategorias();
 
         //Verifica si está editando
-        if (ADD_EDIT_ACTION == 1) {
+        if (addEditAction == 1) {
             setTitle("Editar nota");
             id = getIntent().getIntExtra(Constantes.ID, 0);
             getDataFromIDExtra(id);
@@ -82,7 +87,7 @@ public class AddEditActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (ADD_EDIT_ACTION == 0) {
+                if (addEditAction == 0) {
                     //Creando nota
                     crearNota(view);
                 } else {
@@ -249,6 +254,10 @@ public class AddEditActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Se llama al pulsar el botón Back en la esquina superior izquierda
+     * @return
+     */
     @Override
     public boolean onSupportNavigateUp() {
         onBackPressed();

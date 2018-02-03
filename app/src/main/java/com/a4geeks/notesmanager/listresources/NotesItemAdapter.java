@@ -34,36 +34,69 @@ public class NotesItemAdapter extends BaseAdapter {
     protected ArrayList<NotesItem> items;
     SQLiteDatabase db;
 
+    /**
+     * Constructor de la clase NotesItemAdapter
+     * @param activity activity que contiene el constructor
+     * @param items arraylist con los items de la lista
+     */
     public NotesItemAdapter(Activity activity, ArrayList<NotesItem> items) {
         this.activity = activity;
         this.items = items;
     }
 
+    /**
+     * Devuelve la cantidad de elementos de la lista
+     * @return cantidad de elementos de la lista
+     */
     @Override
     public int getCount() {
         return items.size();
     }
 
+    /**
+     * Vacía la lista
+     */
     public void clear() {
         items.clear();
     }
 
+    /**
+     * Vuelve a llenar la lista
+     * @param category lista
+     */
     public void addAll(ArrayList<NotesItem> category) {
         for (int i = 0; i < category.size(); i++) {
             items.add(category.get(i));
         }
     }
 
+    /**
+     * Obtiene un item de la lista
+     * @param arg0 el id a obtener
+     * @return el item de la lista
+     */
     @Override
     public Object getItem(int arg0) {
         return items.get(arg0);
     }
 
+    /**
+     * Obtiene el id de un item de la lista
+     * @param position posicion para obtener el id
+     * @return el id del item de la lista
+     */
     @Override
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * Crea la vista final del item de la lista
+     * @param position posicion del item a crear
+     * @param convertView
+     * @param parent
+     * @return la vista creada
+     */
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
 

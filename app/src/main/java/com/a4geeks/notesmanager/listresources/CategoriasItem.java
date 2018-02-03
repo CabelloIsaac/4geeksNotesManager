@@ -19,6 +19,10 @@ public class CategoriasItem {
 
     }
 
+    /**
+     *
+     * @return
+     */
     public String getId() {
         return id;
     }

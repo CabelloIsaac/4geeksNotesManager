@@ -1,4 +1,4 @@
-package com.a4geeks.notesmanager.libs;
+package com.a4geeks.notesmanager;
 
 import android.app.Application;
 
@@ -6,10 +6,10 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 
 /**
- * Clase de tipo Application necesario para la configuración del SDK de Facebook
+ * Created by cabel on 25/1/2018.
  */
 
-public class a4GeeksNotesManagerApp extends Application{
+public class NotesManagerApp extends Application{
 
     @Override
     public void onCreate() {
