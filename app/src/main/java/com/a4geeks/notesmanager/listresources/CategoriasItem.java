@@ -1,8 +1,12 @@
 package com.a4geeks.notesmanager.listresources;
 
 /**
- * Clase para los Items de la lista de Categorías
+ * Esta clase es utilizada para el almacenamiento de los datos de las categorías mostradas en la lista en la
+ * pantalla principal.
+ *
+ * Cada nota contiene un ID y un Nombre.
  */
+
 
 public class CategoriasItem {
 

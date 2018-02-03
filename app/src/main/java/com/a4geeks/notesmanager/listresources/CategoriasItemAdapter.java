@@ -13,7 +13,10 @@ import com.a4geeks.notesmanager.R;
 import java.util.ArrayList;
 
 /**
- * Adaptador para los Items de la lista de Categorías
+ * Esta clase es un adaptaador usado para llenar la lista de las categorías creadas por el usuario.
+ *
+ * Se encarga de obtener los datos del objeto CategoriasItem pasado a la clase y mostrarlos en pantalla
+ * a través de unos TextView's.
  */
 
 public class CategoriasItemAdapter extends BaseAdapter {

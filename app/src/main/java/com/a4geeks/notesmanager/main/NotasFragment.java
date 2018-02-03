@@ -31,7 +31,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 
 /**
- * Fragment que se carga en el MainActivity que lista las notas registradas por el usuario
+ * Esta clase mostrará todas las notas que el usuario actual haya registrado en la aplicación.
+ * Las notas se ordenarán como el usuario haya indicado en el menú superior derecho de la pantalla.
+ * También permitirá al usuario buscar entre sus notas indicando una palabra clave en la barra de búsqueda.
  */
 
 public class NotasFragment extends Fragment {
@@ -115,6 +117,12 @@ public class NotasFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Obtiene todas las notas creadas por el usuario loggeado y las muestra en una lista en pantalla
+     * El usuario puede configurar con el menú superior derecho el orden en el que se mostrarán las notas.
+     * El usuario podrá hacer clic sobre ellas para verlas en detalle y luego modificarlas o eliminarlas.
+     *
+     */
     private void llenarLista() {
 
         if (mAuth.getCurrentUser() != null) {
@@ -159,8 +167,13 @@ public class NotasFragment extends Fragment {
         }
     }
 
+    /**
+     * Filtra las notas creadas por el usuario en las que su título contenga la palabra clave indicada por el usuario
+     * y devuelve una lista ordenada de la forma que el usuario haya indicado.
+     *
+     * @param filtro palabra clave que el usuario desea buscar
+     */
     private void buscar(String filtro) {
-
 
         String usuario = mAuth.getCurrentUser().getUid();
         Cursor cursor = null;

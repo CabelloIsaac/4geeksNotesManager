@@ -31,8 +31,13 @@ import java.util.Arrays;
 
 import static com.a4geeks.notesmanager.libs.Functions.showSnackbar;
 
-/** Activity para el inicio de sesión usuarios mediante el método de Correo Electrónico o Facebook
- * y haciendo uso de Firebase de Google **/
+/**
+ * Esta clase permite al usuario iniciar sesión en la aplicación haciendo uso de Firebase Authentication.
+ * Se le pedirá al usuario un correo electrónico y contraseñas válidos para iniciar sesión.
+ * Si no posee una cuenta, puede registrarse pulsando en el texto marcado.
+ *
+ * @author Isaac Cabello
+ */
 
 public class LogInActivity extends AppCompatActivity {
 
@@ -48,7 +53,6 @@ public class LogInActivity extends AppCompatActivity {
     LoginButton loginButton;
 
     private static final String EMAIL = "email";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,18 +119,16 @@ public class LogInActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            GoToMain();
-        }
-    }
-
-    //Log In Function
+    /**
+     * Obtiene los datos introducidos por el usuario y comprueba si no están vacíos y si la contraseña
+     * es lo suficientemente larga.
+     * Si alguna de estas condiciones no se cumple, muestra un mensaje al usuario indicando qué salió mal.
+     *
+     * Si las condiciones se cumplen, llama al método para realizar el iniicio de sesión del usuario.
+     * Luego de haber iniciado sesión correctamente, va a la pantalla principal
+     *
+     * @param view la vista necesaria donde se mostrará el SnackBar
+     */
     public void signIn(View view) {
 
         //Getting text from EditText's
@@ -167,6 +169,10 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Maneja el inicio de sesión con Facebook.
+     * @param token token de acceso único por usuario de Facebook
+     */
     private void handleFacebookAccessToken(AccessToken token) {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
@@ -180,13 +186,16 @@ public class LogInActivity extends AppCompatActivity {
                             GoToMain();
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(LogInActivity.this, "Error al entkkrar con Facebook",
+                            Toast.makeText(LogInActivity.this, "Error al entrar con Facebook",
                                     Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
+    /**
+     *Va a la pantalla de registro de usuario
+     */
     public void signUp() {
 
         //Go to SignUpActivity
@@ -196,6 +205,9 @@ public class LogInActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Va a la pantalla principal.
+     */
     private void GoToMain() {
         Intent intent = new Intent(LogInActivity.this, MainActivity.class);
         startActivity(intent);

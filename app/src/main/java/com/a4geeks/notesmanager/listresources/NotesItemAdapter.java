@@ -22,7 +22,10 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Adaptador para los Items de la lista de Categorías
+ * Esta clase es un adaptaador usado para lenar la lista de las notas creadas por el usuario.
+ *
+ * Se encarga de obtener los datos del objeto NotesItem pasado a la clase y mostrarlos en pantalla
+ * a través de unos TextView's.
  */
 
 public class NotesItemAdapter extends BaseAdapter {
@@ -137,6 +140,17 @@ public class NotesItemAdapter extends BaseAdapter {
         return v;
     }
 
+    /**
+     * Cuando se usa el adaptador para mostrar una nota en la lista, se debe buscar el nombre de la categoría registrada.
+     * Las categorías se almacenan por ID en la base de datos para evitar problemas si estas son modificadas.
+     * De esta forma se asegura una consistencia en los resuttados mostrados.
+     *
+     * Este método usa el ID de la categoría correspondiente para buscar su nombre en la base de datos.
+     *
+     * @param id ID de la categoría de la cual se obtendrá el nombre
+     *
+     * @return
+     */
     private String getNombreCategoriaById(String id) {
         String nombre = "";
 

@@ -11,8 +11,13 @@ import android.widget.TextView;
 import com.a4geeks.notesmanager.R;
 
 /**
- * Created by cabel on 17/8/2017.
+ * Esta clase es un adaptador usado para llenar la lista de las categorías creadas por el usuario
+ * que se mostrarán en una lista desplegable al crear una nueva nota.
+ *
+ * Se encarga de obtener los datos del objeto Cursor pasado a la clase y mostrarlos en pantalla
+ * a través de unos TextView's.
  */
+
 
 public class CategoriasSpinnerItemAdapter extends CursorAdapter {
 

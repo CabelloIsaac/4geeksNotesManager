@@ -20,8 +20,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-/** Activity para el registro de nuevos usuarios mediante el método de Correo Electrónico
- * y haciendo uso de Firebase de Google **/
+/**
+ * Esta clase permite el registro de un usuario en la aplicación haciendo uso de Firebase Authentication.
+ * El usuario deberá indicar un correo electrónico, una contraseña y confirmar esa contraseña para registrarse.
+ * Si ya posee una cuenta, puede pulsar el texto mostrado que corresponda al inicio de sesión.
+ *
+ * @author Isaac Cabello.
+ * @
+ */
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -72,31 +78,33 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Comprueba si existe una sesión activa.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser!=null){
-            //Si hay sesión activa, envía a MainActivity
-            goToMain();
-        }
-    }
 
-    //SnackBar function that shows messages
+    /**
+     * Muestra un SnackBar en la pantalla con un mensaje de relevancia para el usuario.
+     * @param view La vista en la que se mostrará la SnackBar
+     * @param message El mensaje que se mostrará
+     */
     public void showSnackbar(View view, String message) {
         Snackbar.make(view, message, Snackbar.LENGTH_LONG)
                 .show();
     }
 
-    //Log In Function
+
+    /**
+     * Obtiene los datos introducidos por el usuario y comprueba si no están vacíos, si la contraseña
+     * es lo suficientemente larga y si estas coinciden entre sí.
+     * Si alguna de estas condiciones no se cumple, muestra un mensaje al usuario indicando qué salió mal.
+     *
+     * Si las condiciones se cumplen, llama al método para realizar el registro del usuario.
+     *
+     * @param view la vista necesaria donde se mostrará el SnackBar
+     */
     public void SignUp(View view) {
 
         //Getting text from EditText's
         email = etEmail.getText().toString();
         password = etPassword.getText().toString();
         confirmPassword = etConfirmPassword.getText().toString();
-
 
         //Checking if Email or password aren't empty
         if (email.length() < 1 || password.length() < 1 || confirmPassword.length() < 1) {
@@ -127,6 +135,12 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Registra el usuario en Firebase Authentication. Si algo sale mal, muestra un mensaje al usuario.
+     * Si el registro se completa correctamente, va a la pantalla principal.
+     * @param email correo electrónico del usuario
+     * @param password contraseña del usuario
+     */
     private void RegistrarUsuario(String email, String password) {
 
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -140,7 +154,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(SignUpActivity.this, "Pro",
+                            Toast.makeText(SignUpActivity.this, "No se pudo registrar.",
                                     Toast.LENGTH_SHORT).show();
                         }
                         // ...
@@ -149,6 +163,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Va a la pantalla de iniciar sesión
+     */
     public void signIn() {
 
         //Go to signIn Activity
@@ -158,6 +175,9 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Va a la pantalla principal.
+     */
     private void goToMain() {
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
         startActivity(intent);

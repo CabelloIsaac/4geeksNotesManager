@@ -1,7 +1,10 @@
 package com.a4geeks.notesmanager.listresources;
 
 /**
- * Clase para los Items de la lista de Notas
+ * Esta clase es utilizada para el almacenamiento de los datos de las notas mostradas en la lista en la
+ * pantalla principal.
+ *
+ * Cada nota contiene un ID, Título, Descripción, Categoría, Si está completada y la fecha.
  */
 
 public class NotesItem {
